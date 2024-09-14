@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Cartel de Sinaloa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Le Cartel de Sinaloa</h1>
+    </header>
+
+    <main>
+        <nav>
+            <ul>
+                <li><button id="btn-presentation" class="big-button">Présentation</button></li>
+                <li><button id="btn-histoire" class="big-button">Histoire</button></li>
+                <li><button id="btn-activites" class="big-button">Activités</button></li>
+                <li><button id="btn-impact" class="big-button">Impact</button></li>
+                <li><button id="btn-objectifs" class="big-button">Objectifs</button></li>
+                <li><button id="btn-motivation" class="big-button">Motivation</button></li>
+                <li><button id="btn-tenues" class="big-button">Tenues</button></li>
+                <li><button id="btn-vehicules" class="big-button">Véhicules</button></li>
+            </ul>
+        </nav>
+
+        <section id="gta-rp-info">
+            <h2>Le Cartel de Sinaloa dans GTA RP</h2>
+            <p>L'utilisation du thème du cartel de Sinaloa dans un serveur GTA RP pourrait offrir :</p>
+            <ul>
+                <li>Des scénarios complexes et des intrigues captivantes</li>
+                <li>Des opportunités de jeu de rôle variées (forces de l'ordre, criminels, civils)</li>
+                <li>Un contexte historique et culturel riche pour le développement des personnages</li>
+                <li>Des défis éthiques et moraux pour les joueurs</li>
+            </ul>
+            <p>Rappel : Ce thème doit être traité avec sensibilité et ne pas glorifier les activités criminelles réelles.</p>
+        </section>
+
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-title"></h2>
+                <div id="tenues-buttons" style="display: none;">
+                    <button class="tenues-btn" data-page="1">1</button>
+                    <button class="tenues-btn" data-page="2">2</button>
+                    <button class="tenues-btn" data-page="3">3</button>
+                    <button class="tenues-btn" data-page="4">4</button>
+                </div>
+                <div id="tenues-pages">
+                    <div class="tenues-page" id="tenues-page-1" style="display: none;">
+                        <img src="https://cdn.discordapp.com/attachments/1276311307334848543/1280146709938438207/image.png?ex=66e6d707&is=66e58587&hm=db74de5b5af4f012321cb5c7843fc7cc5f3eafd4c2e0c2bb0fae75f224b5cbb8&" alt="Tenue 1">
+                    </div>
+                    <div class="tenues-page" id="tenues-page-2" style="display: none;">
+                        <img src="https://cdn.discordapp.com/attachments/1276311307334848543/1280152907693428838/image.png?ex=66e6dccd&is=66e58b4d&hm=6cffa569c1d3d754d2020e46f65b5ef1de7fc392ae098d7ccca8edbf73af6d21&" alt="Tenue 2">
+                    </div>
+                    <div class="tenues-page" id="tenues-page-3" style="display: none;">
+                        <img src="https://cdn.discordapp.com/attachments/1276311307334848543/1284528909206949960/image.png?ex=66e6f645&is=66e5a4c5&hm=879a8893fa812d830161483d09d77ab63b66cfbb37b27379fff65a8a47899e14&" alt="Tenue 3">
+                    </div>
+                    <div class="tenues-page" id="tenues-page-4" style="display: none;">
+                        <img src="https://cdn.discordapp.com/attachments/1276311307334848543/1280151390391635989/image.png?ex=66e6db63&is=66e589e3&hm=1ce840bf481d6d579d0ea10402fea6305271c452d13b9ae161164c82548bb54b&" alt="Tenue 4">
+                    </div>
+                </div>
+                <div id="vehicle-buttons" style="display: none;">
+                    <button class="vehicle-btn" data-page="1">1</button>
+                    <button class="vehicle-btn" data-page="2">2</button>
+                    <button class="vehicle-btn" data-page="3">3</button>
+                </div>
+                <div id="vehicle-pages">
+                    <div class="vehicle-page" id="vehicle-page-1" style="display: none;"></div>
+                    <div class="vehicle-page" id="vehicle-page-2" style="display: none;"></div>
+                    <div class="vehicle-page" id="vehicle-page-3" style="display: none;"></div>
+                </div>
+                <p id="modal-text"></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Site d'offilisiation du cartel de sinaloa au sein de madonne studio</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
