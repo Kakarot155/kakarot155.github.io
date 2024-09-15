@@ -51,10 +51,7 @@ De plus, nous sommes tous très actifs et nous souhaitons être l'un des groupes
             title: "Tenues du Cartel de Sinaloa",
             text: "",
             pages: [
-                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1280146709938438207/image.png?ex=66e6d707&is=66e58587&hm=db74de5b5af4f012321cb5c7843fc7cc5f3eafd4c2e0c2bb0fae75f224b5cbb8&" alt="Tenue 1" style="max-width: 100%; height: auto;">',
-                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1280152907693428838/image.png?ex=66e6dccd&is=66e58b4d&hm=6cffa569c1d3d754d2020e46f65b5ef1de7fc392ae098d7ccca8edbf73af6d21&" alt="Tenue 2" style="max-width: 100%; height: auto;">',
-                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1284528909206949960/image.png?ex=66e6f645&is=66e5a4c5&hm=879a8893fa812d830161483d09d77ab63b66cfbb37b27379fff65a8a47899e14&" alt="Tenue 3" style="max-width: 100%; height: auto;">',
-                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1280151390391635989/image.png?ex=66e6db63&is=66e589e3&hm=1ce840bf481d6d579d0ea10402fea6305271c452d13b9ae161164c82548bb54b&" alt="Tenue 4" style="max-width: 100%; height: auto;">'
+                '<img src="https://cdn.discordapp.com/attachments/1281583417175179265/1284550110465888348/image.png?ex=66e7b2c4&is=66e66144&hm=90159ea87d9ac1ae98b43114e6494e6b958dccb82295059a74b3493151a2ebb9&" alt="Tenue 1" style="max-width: 100%; height: auto;">',
             ]
         },
         vehicules: {
