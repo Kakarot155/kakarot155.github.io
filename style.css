@@ -5,11 +5,15 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #2E2E2E; /* Nouveau gris foncé pour le fond */
+}
+
+header, footer {
+    background-color: #1C1C1C !important; /* Gris anthracite */
+    color: #fff;
 }
 
 header {
-    background-color: #333;
     color: #fff;
     text-align: center;
     padding: 1rem;
@@ -31,7 +35,7 @@ nav ul li {
 }
 
 .big-button {
-    background-color: #4CAF50;
+    background-color: #8B0000; /* Nouveau rouge foncé */
     border: none;
     color: white;
     padding: 15px 30px;
@@ -46,7 +50,8 @@ nav ul li {
 }
 
 #gta-rp-info {
-    background-color: #fff;
+    background-color: #EAEAEA; /* Nouveau blanc cassé pour le cadre principal */
+    color: #333; /* Couleur de texte foncée pour un bon contraste */
     margin: 20px auto;
     padding: 20px;
     border-radius: 5px;
@@ -55,8 +60,8 @@ nav ul li {
 }
 
 #gta-rp-info h2 {
-    color: #333;
-    border-bottom: 2px solid #4CAF50;
+    color: #333; /* Titre en couleur foncée */
+    border-bottom: 2px solid #8B0000; /* Bordure rouge foncé pour correspondre aux boutons */
     padding-bottom: 10px;
 }
 
@@ -66,6 +71,7 @@ nav ul li {
 
 #gta-rp-info li {
     margin-bottom: 10px;
+    color: #333; /* Couleur de texte foncée pour les éléments de liste */
 }
 
 .modal {
@@ -105,7 +111,6 @@ nav ul li {
 }
 
 footer {
-    background-color: #333;
     color: #fff;
     text-align: center;
     padding: 10px;
@@ -114,23 +119,17 @@ footer {
     width: 100%;
 }
 
-.vehicle-btn {
+.vehicle-btn, .tenues-btn {
+    background-color: #8B0000; /* Nouveau rouge foncé */
+    color: white;
     margin-right: 10px;
     padding: 5px 10px;
     cursor: pointer;
+    border: none;
+    border-radius: 3px;
 }
 
 #vehicle-buttons {
-    margin-bottom: 15px;
-}
-
-.tenues-btn {
-    margin-right: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-#tenues-buttons {
     margin-bottom: 15px;
 }
 
