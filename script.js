@@ -58,9 +58,9 @@ De plus, nous sommes tous très actifs et nous souhaitons être l'un des groupes
             title: "Véhicules du Cartel de Sinaloa",
             text: "",
             pages: [
-                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1281598559271256146/image.png?ex=66e6d92b&is=66e587ab&hm=21e6e33e3691726dd9d0292a5611c9ecbcd0ec003acb2065ec3e82234210acfe&" alt="Image 1" style="max-width: 100%; height: auto;">',
-                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1281599660217208965/image.png?ex=66e6da31&is=66e588b1&hm=b975746e2f1273e362db579a71ea55cb61936dfda959953caa7c7c00cd42db9f&" alt="Image 2" style="max-width: 100%; height: auto;">',
-                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1281599123761532949/image.png?ex=66e6d9b2&is=66e58832&hm=4e0005e6212a2529ea32ef916003284260a4b9652663ad2079af844cbffe12bd&" alt="Image 3" style="max-width: 100%; height: auto;">'
+                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1281600245742047244/anBn.png?ex=66eec3bd&is=66ed723d&hm=11e2b884ae9537a45e5fe44fceb0c4edce5b13c35588b6d83016080235eca2ea&" alt="Image 1" style="max-width: 100%; height: auto;">',
+                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1281598559271256146/image.png?ex=66eec22b&is=66ed70ab&hm=63506eebc458d99d68f2d973057718f98e211902f446ac0e66733e0940caa41d&" alt="Image 2" style="max-width: 100%; height: auto;">',
+                '<img src="https://cdn.discordapp.com/attachments/1276311307334848543/1281599123761532949/image.png?ex=66eec2b2&is=66ed7132&hm=17be9bdfd42cc49576ed07d2a1605a1b84268b33645f34cbae052d501b07808f&" alt="Image 3" style="max-width: 100%; height: auto;">'
             ]
         }
     };
