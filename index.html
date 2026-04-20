@@ -1,73 +1,1665 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Cartel de Sinaloa</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volksmusik – Musique Folklorique Allemande</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --parchment: #ede4cf;
+    --dark: #1a1208;
+    --brown: #5c3d1e;
+    --gold: #c8962a;
+    --gold-light: #e8bf6a;
+    --alpine-green: #2d5a27;
+    --alpine-light: #4a8f42;
+    --nord-blue: #1e3a5f;
+    --nord-light: #2e5a8f;
+    --red: #8b2020;
+    --red-light: #c43030;
+    --success: #2d6a2d;
+    --error: #8b1a1a;
+    --shadow: rgba(26,18,8,0.3);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--dark);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* BACKGROUND TEXTURE */
+  body::before {
+    content:'';
+    position:fixed; inset:0; z-index:0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events:none;
+  }
+
+  /* HEADER */
+  header {
+    position:relative; z-index:10;
+    background: linear-gradient(135deg, var(--dark) 0%, #2d1e0a 100%);
+    border-bottom: 4px solid var(--gold);
+    padding: 0;
+    overflow: hidden;
+  }
+  header::before {
+    content:'';
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 20px,
+      rgba(200,150,42,0.04) 20px, rgba(200,150,42,0.04) 21px
+    );
+  }
+  .header-inner {
+    position:relative; z-index:2;
+    max-width:1100px; margin:0 auto;
+    padding: 40px 30px 30px;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    text-align:center;
+  }
+  .header-ornament {
+    font-size:2.5rem; color:var(--gold-light);
+    letter-spacing:20px;
+    animation: fadeInDown 1s ease;
+  }
+  header h1 {
+    font-family:'Playfair Display', serif;
+    font-size: clamp(2.2rem,5vw,4rem);
+    font-weight:900;
+    color: var(--cream);
+    line-height:1.1;
+    animation: fadeInDown 1s ease 0.2s both;
+  }
+  header h1 span { color:var(--gold); }
+  header p.subtitle {
+    font-family:'Crimson Pro', serif;
+    font-style:italic;
+    color:var(--gold-light);
+    font-size:1.15rem;
+    animation: fadeInDown 1s ease 0.4s both;
+  }
+
+  /* NAV */
+  nav {
+    position:relative; z-index:10;
+    background: var(--brown);
+    border-bottom:3px solid var(--gold-light);
+    display:flex; justify-content:center; flex-wrap:wrap; gap:0;
+  }
+  nav a {
+    color:var(--cream); text-decoration:none;
+    font-family:'Crimson Pro', serif; font-weight:600; font-size:0.95rem;
+    padding:14px 22px;
+    border-right:1px solid rgba(200,150,42,0.3);
+    transition: background 0.2s, color 0.2s;
+    letter-spacing:0.5px;
+  }
+  nav a:hover, nav a.active { background:var(--gold); color:var(--dark); }
+
+  /* MAIN LAYOUT */
+  main { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:30px 20px 80px; }
+
+  /* SECTIONS */
+  .section { display:none; animation: fadeIn 0.4s ease; }
+  .section.active { display:block; }
+
+  /* SECTION HEADER */
+  .section-hero {
+    position:relative;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:35px;
+    padding:35px 40px;
+    display:flex; align-items:center; gap:30px;
+  }
+  .section-hero.alpine { background: linear-gradient(135deg, #2d5a27 0%, #1a3a15 100%); }
+  .section-hero.nord { background: linear-gradient(135deg, #1e3a5f 0%, #0e1f35 100%); }
+  .section-hero.general { background: linear-gradient(135deg, #5c3d1e 0%, #2d1e0a 100%); }
+  .section-hero::after {
+    content:'';
+    position:absolute; inset:0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 15px,
+      rgba(255,255,255,0.03) 15px, rgba(255,255,255,0.03) 16px
+    );
+  }
+  .section-hero-text { position:relative; z-index:2; }
+  .section-hero h2 {
+    font-family:'Playfair Display',serif;
+    color: var(--cream); font-size:2.2rem; font-weight:900;
+    line-height:1.1; margin-bottom:8px;
+  }
+  .section-hero p { color:rgba(255,255,255,0.8); font-style:italic; font-size:1.05rem; }
+  .section-hero-icon { font-size:5rem; opacity:0.5; position:relative; z-index:2; }
+
+  /* CARDS GRID */
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:22px; margin-bottom:35px; }
+
+  .card {
+    background: white;
+    border-radius:10px;
+    border:2px solid var(--parchment);
+    box-shadow: 0 4px 20px var(--shadow);
+    overflow:hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform:translateY(-4px); box-shadow:0 8px 32px var(--shadow); }
+  .card-header {
+    padding:14px 18px;
+    font-family:'Playfair Display',serif;
+    font-weight:700; font-size:1.05rem;
+    display:flex; align-items:center; gap:10px;
+  }
+  .card-header.alpine { background:var(--alpine-green); color:var(--cream); }
+  .card-header.nord { background:var(--nord-blue); color:var(--cream); }
+  .card-header.brown { background:var(--brown); color:var(--cream); }
+  .card-body { padding:16px 18px; }
+  .card-body p { font-size:0.95rem; color:#333; line-height:1.6; }
+  .card-body .mnemo {
+    margin-top:10px;
+    background:var(--parchment);
+    border-left:3px solid var(--gold);
+    padding:8px 12px;
+    border-radius:0 6px 6px 0;
+    font-style:italic; font-size:0.88rem; color:var(--brown);
+  }
+  .card-body .mnemo::before { content:'💡 Astuce : '; font-weight:600; font-style:normal; }
+
+  /* VOCABULARY TABLE */
+  .vocab-table {
+    width:100%; border-collapse:collapse;
+    background:white; border-radius:10px; overflow:hidden;
+    box-shadow:0 4px 20px var(--shadow);
+    margin-bottom:30px;
+  }
+  .vocab-table thead tr { background:var(--brown); color:var(--cream); }
+  .vocab-table thead th { padding:14px 18px; text-align:left; font-family:'Playfair Display',serif; font-size:1rem; }
+  .vocab-table tbody tr { border-bottom:1px solid var(--parchment); transition:background 0.15s; }
+  .vocab-table tbody tr:hover { background:var(--parchment); }
+  .vocab-table tbody td { padding:12px 18px; font-size:0.95rem; }
+  .vocab-table .word { font-weight:600; color:var(--brown); }
+  .vocab-table .tip { font-style:italic; color:#666; font-size:0.85rem; }
+
+  /* INSTRUMENTS GALLERY */
+  .instruments-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px; margin-bottom:35px; }
+  .instrument-card {
+    background:white; border-radius:10px;
+    border:2px solid var(--parchment);
+    box-shadow:0 4px 16px var(--shadow);
+    padding:20px;
+    text-align:center;
+    transition:transform 0.2s;
+  }
+  .instrument-card:hover { transform:translateY(-3px); }
+  .instrument-icon { font-size:3.5rem; display:block; margin-bottom:10px; }
+  .instrument-name { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--dark); margin-bottom:6px; }
+  .instrument-region {
+    display:inline-block;
+    padding:3px 10px; border-radius:20px;
+    font-size:0.78rem; font-weight:600;
+    letter-spacing:0.5px; margin-bottom:8px;
+  }
+  .instrument-region.alpine { background:#e8f5e4; color:var(--alpine-green); }
+  .instrument-region.nord { background:#e4ecf7; color:var(--nord-blue); }
+  .instrument-region.both { background:#fff3e0; color:var(--brown); }
+  .instrument-desc { font-size:0.88rem; color:#555; line-height:1.5; }
+  .instrument-mnemo {
+    margin-top:10px; padding:8px;
+    background:var(--parchment); border-radius:6px;
+    font-size:0.82rem; font-style:italic; color:var(--brown);
+  }
+
+  /* QUIZ SECTION */
+  .quiz-container { max-width:750px; margin:0 auto; }
+  .quiz-header {
+    text-align:center; margin-bottom:30px;
+    font-family:'Playfair Display',serif;
+    font-size:1.8rem; font-weight:700; color:var(--dark);
+  }
+  .quiz-progress {
+    background:var(--parchment); border-radius:20px; height:10px;
+    margin-bottom:25px; overflow:hidden;
+    border:1px solid rgba(0,0,0,0.1);
+  }
+  .quiz-progress-bar {
+    height:100%; background:linear-gradient(90deg,var(--gold),var(--gold-light));
+    border-radius:20px; transition:width 0.5s ease;
+  }
+  .quiz-q-num { text-align:center; font-size:0.9rem; color:#888; margin-bottom:20px; }
+  .quiz-question {
+    background:white; border-radius:12px;
+    border:2px solid var(--parchment);
+    box-shadow:0 4px 20px var(--shadow);
+    padding:28px 30px; margin-bottom:20px;
+  }
+  .quiz-question .q-text {
+    font-family:'Playfair Display',serif;
+    font-size:1.2rem; font-weight:700; color:var(--dark);
+    margin-bottom:6px; line-height:1.4;
+  }
+  .quiz-question .q-context {
+    font-size:0.88rem; color:#777; font-style:italic; margin-bottom:18px;
+  }
+  .quiz-options { display:grid; gap:10px; }
+  .quiz-option {
+    padding:13px 18px; border-radius:8px;
+    border:2px solid var(--parchment);
+    background:white; cursor:pointer;
+    font-family:'Crimson Pro',serif; font-size:1rem;
+    text-align:left; transition:all 0.2s;
+    display:flex; align-items:center; gap:12px;
+  }
+  .quiz-option:hover:not(:disabled) { border-color:var(--gold); background:var(--parchment); }
+  .quiz-option.correct { border-color:#2d6a2d; background:#e8f5e4; color:#1a4a1a; }
+  .quiz-option.wrong { border-color:#8b1a1a; background:#fde8e8; color:#5a0a0a; }
+  .quiz-option:disabled { cursor:default; }
+  .option-letter {
+    width:28px; height:28px; border-radius:50%;
+    background:var(--parchment); color:var(--brown);
+    font-weight:700; font-size:0.85rem;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .quiz-option.correct .option-letter { background:#2d6a2d; color:white; }
+  .quiz-option.wrong .option-letter { background:#8b1a1a; color:white; }
+  .quiz-explanation {
+    display:none;
+    margin-top:14px; padding:14px 16px;
+    background:var(--parchment);
+    border-left:4px solid var(--gold);
+    border-radius:0 8px 8px 0;
+    font-size:0.92rem; color:var(--dark);
+    line-height:1.6;
+  }
+  .quiz-explanation.show { display:block; animation:fadeIn 0.3s ease; }
+  .quiz-explanation strong { color:var(--brown); }
+  .quiz-nav { display:flex; justify-content:center; gap:14px; margin-top:20px; }
+  .btn {
+    padding:12px 28px; border-radius:8px;
+    border:none; cursor:pointer;
+    font-family:'Crimson Pro',serif; font-weight:600; font-size:1rem;
+    transition:all 0.2s; letter-spacing:0.3px;
+  }
+  .btn-primary { background:var(--gold); color:var(--dark); }
+  .btn-primary:hover { background:var(--gold-light); transform:translateY(-1px); }
+  .btn-secondary { background:var(--brown); color:var(--cream); }
+  .btn-secondary:hover { background:#7a5228; }
+  .btn-alpine { background:var(--alpine-green); color:white; }
+  .btn-alpine:hover { background:var(--alpine-light); }
+  .btn-nord { background:var(--nord-blue); color:white; }
+  .btn-nord:hover { background:var(--nord-light); }
+
+  /* SCORE DISPLAY */
+  .score-display {
+    text-align:center; padding:40px 20px;
+    background:white; border-radius:12px;
+    border:2px solid var(--parchment);
+    box-shadow:0 4px 20px var(--shadow);
+  }
+  .score-circle {
+    width:120px; height:120px; border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    margin:0 auto 20px; box-shadow:0 6px 24px rgba(200,150,42,0.4);
+  }
+  .score-circle .score-num { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--dark); }
+  .score-circle .score-denom { font-size:0.9rem; color:rgba(26,18,8,0.7); }
+  .score-message { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; margin-bottom:8px; }
+  .score-sub { font-style:italic; color:#666; margin-bottom:24px; }
+
+  /* MATCHING EXERCISE */
+  .matching-container { max-width:800px; margin:0 auto; }
+  .matching-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+  .matching-col h4 {
+    font-family:'Playfair Display',serif; font-size:1rem;
+    color:var(--brown); margin-bottom:12px;
+    text-align:center; padding:8px;
+    background:var(--parchment); border-radius:6px;
+  }
+  .match-item {
+    padding:12px 16px; border-radius:8px;
+    border:2px solid var(--parchment);
+    background:white; cursor:pointer;
+    font-size:0.95rem; transition:all 0.2s;
+    margin-bottom:8px; text-align:center;
+  }
+  .match-item:hover:not(.matched):not(.selected-match) { border-color:var(--gold); background:var(--parchment); }
+  .match-item.selected-match { border-color:var(--gold); background:#fff9e6; box-shadow:0 0 0 3px rgba(200,150,42,0.3); }
+  .match-item.matched.correct { border-color:#2d6a2d; background:#e8f5e4; cursor:default; }
+  .match-item.matched.wrong { border-color:#8b1a1a; background:#fde8e8; }
+
+  /* AUDIO QUIZ */
+  .audio-card {
+    background:white; border-radius:12px;
+    border:2px solid var(--parchment); box-shadow:0 4px 20px var(--shadow);
+    padding:25px; margin-bottom:20px;
+  }
+  .fake-player {
+    background:linear-gradient(135deg,#1a1208,#2d1e0a);
+    border-radius:10px; padding:20px;
+    display:flex; flex-direction:column; gap:12px;
+    margin-bottom:18px;
+  }
+  .fake-player .player-title { color:var(--gold-light); font-weight:600; font-size:0.9rem; }
+  .fake-player .waveform {
+    display:flex; align-items:center; gap:2px; height:40px;
+  }
+  .waveform-bar {
+    flex:1; background:var(--gold-light); border-radius:2px;
+    animation: wave 1.2s ease-in-out infinite;
+    opacity:0.6;
+  }
+  .waveform-bar:nth-child(2n) { animation-delay:0.2s; opacity:0.4; }
+  .waveform-bar:nth-child(3n) { animation-delay:0.4s; height:60% !important; }
+  .fake-player .player-controls { display:flex; align-items:center; gap:14px; }
+  .play-btn {
+    width:40px; height:40px; border-radius:50%;
+    background:var(--gold); border:none; cursor:pointer;
+    font-size:1rem; color:var(--dark);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform 0.2s;
+  }
+  .play-btn:hover { transform:scale(1.1); }
+  .fake-player .time { color:rgba(255,255,255,0.6); font-size:0.85rem; font-family:monospace; }
+
+  /* IMAGE QUIZ */
+  .image-quiz-card {
+    background:white; border-radius:12px;
+    border:2px solid var(--parchment); box-shadow:0 4px 20px var(--shadow);
+    padding:25px; margin-bottom:20px;
+  }
+  .img-display {
+    width:100%; max-width:400px; margin:0 auto 18px;
+    border-radius:10px; overflow:hidden;
+    border:3px solid var(--parchment);
+    display:flex; align-items:center; justify-content:center;
+    background:var(--parchment); height:220px;
+    font-size:5rem;
+  }
+
+  /* FLASHCARDS */
+  .flashcard-container { max-width:600px; margin:0 auto; text-align:center; }
+  .flashcard {
+    height:220px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; position:relative;
+    transform-style:preserve-3d; transition:transform 0.6s;
+    box-shadow:0 8px 32px var(--shadow);
+    margin-bottom:20px;
+  }
+  .flashcard.flipped { transform:rotateY(180deg); }
+  .card-front, .card-back {
+    position:absolute; inset:0;
+    backface-visibility:hidden; border-radius:14px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding:25px;
+  }
+  .card-front { background:linear-gradient(135deg,var(--brown),#2d1e0a); color:var(--cream); }
+  .card-back { background:linear-gradient(135deg,var(--alpine-green),#1a3a15); color:var(--cream); transform:rotateY(180deg); }
+  .flashcard-word { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; margin-bottom:10px; }
+  .flashcard-hint { font-size:0.85rem; opacity:0.7; font-style:italic; }
+  .flashcard-def { font-size:1.05rem; line-height:1.5; }
+  .flashcard-mnemo { font-size:0.85rem; margin-top:10px; opacity:0.8; font-style:italic; }
+  .flashcard-nav { display:flex; align-items:center; justify-content:center; gap:20px; }
+  .flashcard-counter { font-size:0.9rem; color:#888; }
+
+  /* PROGRESS TRACKER */
+  .progress-section {
+    background:white; border-radius:10px; border:2px solid var(--parchment);
+    box-shadow:0 4px 16px var(--shadow); padding:20px; margin-bottom:25px;
+  }
+  .progress-title { font-family:'Playfair Display',serif; font-weight:700; margin-bottom:15px; color:var(--dark); }
+  .progress-items { display:flex; flex-direction:column; gap:10px; }
+  .progress-item { display:flex; align-items:center; gap:14px; }
+  .progress-label { flex:1; font-size:0.9rem; }
+  .progress-bar-wrap { flex:2; height:10px; background:var(--parchment); border-radius:10px; overflow:hidden; }
+  .progress-bar-fill { height:100%; border-radius:10px; transition:width 0.8s ease; }
+  .progress-pct { width:40px; font-size:0.85rem; font-weight:600; text-align:right; }
+
+  /* TIMELINE */
+  .timeline { position:relative; padding-left:30px; margin-bottom:30px; }
+  .timeline::before { content:''; position:absolute; left:8px; top:0; bottom:0; width:2px; background:var(--gold); }
+  .timeline-item { position:relative; margin-bottom:22px; }
+  .timeline-dot {
+    position:absolute; left:-26px; top:5px;
+    width:14px; height:14px; border-radius:50%;
+    background:var(--gold); border:2px solid var(--cream);
+    box-shadow:0 0 0 2px var(--gold);
+  }
+  .timeline-date { font-weight:700; color:var(--gold); font-size:0.85rem; }
+  .timeline-text { font-size:0.95rem; color:var(--dark); line-height:1.5; }
+
+  /* ACCORDION / DETAILS */
+  .accordion { margin-bottom:10px; }
+  .accordion summary {
+    padding:14px 18px; background:white;
+    border:2px solid var(--parchment); border-radius:8px;
+    cursor:pointer; font-family:'Playfair Display',serif;
+    font-size:1.05rem; font-weight:700;
+    list-style:none; display:flex; justify-content:space-between; align-items:center;
+    transition:background 0.2s;
+  }
+  .accordion summary:hover { background:var(--parchment); }
+  .accordion[open] summary { border-radius:8px 8px 0 0; background:var(--parchment); }
+  .accordion .accordion-body {
+    border:2px solid var(--parchment); border-top:none;
+    border-radius:0 0 8px 8px; padding:18px;
+    background:white; font-size:0.95rem; line-height:1.7;
+  }
+  .accordion summary::after { content:'▾'; transition:transform 0.3s; }
+  .accordion[open] summary::after { transform:rotate(180deg); }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:900;
+    color:var(--dark); margin-bottom:6px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .section-title .title-bar { flex:1; height:2px; background:var(--gold); }
+  .section-subtitle { color:#666; font-style:italic; font-size:0.95rem; margin-bottom:24px; }
+
+  /* BADGE */
+  .badge {
+    display:inline-block; padding:3px 12px; border-radius:20px;
+    font-size:0.8rem; font-weight:600; letter-spacing:0.5px;
+  }
+  .badge-alpine { background:#e8f5e4; color:var(--alpine-green); border:1px solid var(--alpine-green); }
+  .badge-nord { background:#e4ecf7; color:var(--nord-blue); border:1px solid var(--nord-blue); }
+  .badge-general { background:#fff3e0; color:var(--brown); border:1px solid var(--brown); }
+
+  /* QUIZ SELECTOR */
+  .quiz-selector {
+    display:flex; flex-wrap:wrap; gap:12px; justify-content:center;
+    margin-bottom:30px;
+  }
+  .quiz-sel-btn {
+    padding:10px 24px; border-radius:8px; border:2px solid var(--parchment);
+    background:white; cursor:pointer; font-family:'Crimson Pro',serif;
+    font-weight:600; font-size:0.95rem; transition:all 0.2s;
+  }
+  .quiz-sel-btn:hover { border-color:var(--gold); }
+  .quiz-sel-btn.selected { background:var(--gold); border-color:var(--gold); color:var(--dark); }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeInDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes wave {
+    0%,100%{ height:60%; }
+    50%{ height:90%; }
+  }
+
+  /* RESPONSIVE */
+  @media(max-width:600px){
+    .matching-grid { grid-template-columns:1fr; }
+    .cards-grid { grid-template-columns:1fr; }
+    nav a { padding:10px 14px; font-size:0.85rem; }
+    .section-hero { flex-direction:column; }
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    padding:16px 20px; border-radius:8px; margin-bottom:20px;
+    border-left:4px solid;
+  }
+  .highlight-box.green { border-color:var(--alpine-green); background:#f0f9f0; }
+  .highlight-box.blue { border-color:var(--nord-blue); background:#f0f4fa; }
+  .highlight-box.gold { border-color:var(--gold); background:#fffbf0; }
+  .highlight-box h4 { font-family:'Playfair Display',serif; font-size:1rem; margin-bottom:6px; }
+
+  /* NOTIF */
+  .notif {
+    position:fixed; bottom:20px; right:20px; z-index:100;
+    padding:12px 20px; border-radius:8px; font-size:0.9rem; font-weight:600;
+    box-shadow:0 4px 20px rgba(0,0,0,0.2); animation:fadeIn 0.3s ease;
+    transition:opacity 0.3s;
+  }
+  .notif.success { background:#2d6a2d; color:white; }
+  .notif.error { background:#8b1a1a; color:white; }
+
+  /* TABLE SECTION */
+  .table-wrap { overflow-x:auto; margin-bottom:25px; }
+
+  /* COMPARE TABLE */
+  .compare-table { width:100%; border-collapse:collapse; background:white; border-radius:10px; overflow:hidden; box-shadow:0 4px 20px var(--shadow); }
+  .compare-table th { padding:14px 18px; font-family:'Playfair Display',serif; font-size:0.95rem; text-align:left; }
+  .compare-table th:nth-child(1) { background:var(--brown); color:var(--cream); }
+  .compare-table th:nth-child(2) { background:var(--alpine-green); color:white; }
+  .compare-table th:nth-child(3) { background:var(--nord-blue); color:white; }
+  .compare-table td { padding:12px 18px; font-size:0.93rem; border-bottom:1px solid var(--parchment); vertical-align:top; }
+  .compare-table tr:last-child td { border-bottom:none; }
+  .compare-table tr:hover td { background:var(--parchment); }
+
+  .fill-blank { display:inline-block; min-width:100px; border-bottom:2px solid var(--gold); padding:0 4px; text-align:center; }
+</style>
 </head>
 <body>
-    <header>
-        <h1>Le Cartel de Sinaloa</h1>
-    </header>
 
-    <main>
-        <nav>
-            <ul>
-                <li><button id="btn-presentation" class="big-button">Présentation</button></li>
-                <li><button id="btn-histoire" class="big-button">Histoire</button></li>
-                <li><button id="btn-activites" class="big-button">Activités</button></li>
-                <li><button id="btn-impact" class="big-button">Impact</button></li>
-                <li><button id="btn-objectifs" class="big-button">Objectifs</button></li>
-                <li><button id="btn-motivation" class="big-button">Motivation</button></li>
-                <li><button id="btn-tenues" class="big-button">Tenues</button></li>
-                <li><button id="btn-vehicules" class="big-button">Véhicules</button></li>
-            </ul>
-        </nav>
+<header>
+  <div class="header-inner">
+    <div class="header-ornament">⁕ ♪ ⁕</div>
+    <h1>Musique <span>Folklorique</span><br>Allemande</h1>
+    <p class="subtitle">Un voyage sonore à travers les traditions germaniques — Lernen mit Freude</p>
+  </div>
+</header>
 
-        <section id="gta-rp-info">
-            <h2>Le Cartel de Sinaloa dans GTA RP</h2>
-            <p>L'utilisation du thème du cartel de Sinaloa dans un serveur GTA RP pourrait offrir :</p>
-            <ul>
-                <li>Des scénarios complexes et des intrigues captivantes</li>
-                <li>Des opportunités de jeu de rôle variées (forces de l'ordre, criminels, civils)</li>
-                <li>Un contexte historique et culturel riche pour le développement des personnages</li>
-                <li>Des défis éthiques et moraux pour les joueurs</li>
-            </ul>
-            <p>Rappel : Ce thème doit être traité avec sensibilité et ne pas glorifier les activités criminelles réelles.</p>
-        </section>
+<nav id="main-nav">
+  <a href="#" class="active" onclick="showSection('accueil',this)">🏠 Accueil</a>
+  <a href="#" onclick="showSection('general',this)">📜 Général</a>
+  <a href="#" onclick="showSection('alpine',this)">🏔️ Alpine</a>
+  <a href="#" onclick="showSection('nord',this)">⚓ Allemagne du Nord</a>
+  <a href="#" onclick="showSection('instruments',this)">🎸 Instruments</a>
+  <a href="#" onclick="showSection('flashcards',this)">🃏 Flashcards</a>
+  <a href="#" onclick="showSection('quiz',this)">✏️ Quiz</a>
+  <a href="#" onclick="showSection('matching',this)">🔗 Association</a>
+  <a href="#" onclick="showSection('images',this)">🖼️ Reconnais!</a>
+</nav>
 
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 id="modal-title"></h2>
-                <div id="tenues-buttons" style="display: none;">
-                </div>
-                <div id="tenues-pages">
-                    <div class="tenues-page" id="tenues-page-1" style="display: none;">
-                        <img src="https://cdn.discordapp.com/attachments/1281583417175179265/1284550110465888348/image.png?ex=66e7b2c4&is=66e66144&hm=90159ea87d9ac1ae98b43114e6494e6b958dccb82295059a74b3493151a2ebb9&" alt="Tenue 1">
-                    </div>
-                </div>
-                <div id="vehicle-buttons" style="display: none;">
-                    <button class="vehicle-btn" data-page="1">1</button>
-                    <button class="vehicle-btn" data-page="2">2</button>
-                    <button class="vehicle-btn" data-page="3">3</button>
-                </div>
-                <div id="vehicle-pages">
-                    <div class="vehicle-page" id="vehicle-page-1" style="display: none;"></div>
-                    <div class="vehicle-page" id="vehicle-page-2" style="display: none;"></div>
-                    <div class="vehicle-page" id="vehicle-page-3" style="display: none;"></div>
-                </div>
-                <p id="modal-text"></p>
-            </div>
+<main>
+
+<!-- ==================== ACCUEIL ==================== -->
+<div id="accueil" class="section active">
+  <div class="section-hero general" style="border-radius:12px;margin-bottom:35px;padding:35px 40px;">
+    <div class="section-hero-text">
+      <h2 style="font-family:'Playfair Display',serif;color:var(--cream);font-size:2.2rem;font-weight:900;margin-bottom:8px;">Bienvenue !</h2>
+      <p style="color:rgba(255,255,255,0.8);font-style:italic;">Ce site t'aidera à maîtriser la musique folklorique allemande grâce à des méthodes mnémotechniques et des exercices interactifs.</p>
+    </div>
+    <div style="font-size:4rem;opacity:0.5;">🎶</div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-title">📊 Ton parcours d'apprentissage</div>
+    <div class="progress-items">
+      <div class="progress-item">
+        <div class="progress-label">🌍 Notions générales</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%;background:var(--brown);" id="prog-general"></div></div>
+        <div class="progress-pct" id="prog-general-pct">0%</div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-label">🏔️ Musique Alpine</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%;background:var(--alpine-green);" id="prog-alpine"></div></div>
+        <div class="progress-pct" id="prog-alpine-pct">0%</div>
+      </div>
+      <div class="progress-item">
+        <div class="progress-label">⚓ Allemagne du Nord</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%;background:var(--nord-blue);" id="prog-nord"></div></div>
+        <div class="progress-pct" id="prog-nord-pct">0%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card" onclick="showSection('general',document.querySelectorAll('nav a')[1])" style="cursor:pointer;">
+      <div class="card-header brown">📜 Notions générales</div>
+      <div class="card-body">
+        <p>Qu'est-ce que la musique folklorique ? Comprendre les fondements, la différence avec la musique populaire et les grandes familles régionales.</p>
+        <div class="mnemo">Pense à « Folk = Peuple » — c'est la musique DE et POUR le peuple !</div>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('alpine',document.querySelectorAll('nav a')[2])" style="cursor:pointer;">
+      <div class="card-header alpine">🏔️ Musique Folklorique Alpine</div>
+      <div class="card-body">
+        <p>Accordéon, cithare, yodel, cor des Alpes… Explore les traditions des régions alpines (Bavière, Autriche, Suisse…)</p>
+        <div class="mnemo">Les Alpes = Accordéon + Yodel + Costumes = A-Y-C !</div>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('nord',document.querySelectorAll('nav a')[3])" style="cursor:pointer;">
+      <div class="card-header nord">⚓ Allemagne du Nord</div>
+      <div class="card-body">
+        <p>Violon, Schifferklavier, shantys… La musique des marins et des côtes, chantée en bas allemand ou en frison.</p>
+        <div class="mnemo">Nord = Mer + Marins + Bateaux = shantys !</div>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('instruments',document.querySelectorAll('nav a')[4])" style="cursor:pointer;">
+      <div class="card-header brown">🎸 Galerie des instruments</div>
+      <div class="card-body">
+        <p>Identifie chaque instrument, son origine régionale et ses caractéristiques sonores grâce à des fiches mémo.</p>
+        <div class="mnemo">Chaque instrument = une image mentale unique !</div>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('flashcards',document.querySelectorAll('nav a')[5])" style="cursor:pointer;">
+      <div class="card-header brown">🃏 Flashcards vocabulaire</div>
+      <div class="card-body">
+        <p>Entraîne ta mémoire avec 24 cartes sur le vocabulaire clé, les définitions et les astuces mnémotechniques.</p>
+        <div class="mnemo">Retourne la carte pour révéler la définition !</div>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('quiz',document.querySelectorAll('nav a')[6])" style="cursor:pointer;">
+      <div class="card-header brown">✏️ Quiz complet</div>
+      <div class="card-body">
+        <p>30 questions pour tester toutes tes connaissances — vocabulaire, instruments, traditions, histoire — avec justifications.</p>
+        <div class="mnemo">Chaque bonne réponse est expliquée !</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box gold">
+    <h4>🎯 Comment utiliser ce site ?</h4>
+    <p>Commence par les sections <strong>Général → Alpine → Nord</strong> pour lire les contenus. Entraîne-toi ensuite avec les <strong>Flashcards</strong>, puis teste-toi avec le <strong>Quiz</strong> et les exercices d'<strong>Association</strong>. La section <strong>Reconnais!</strong> t'entraîne à identifier instruments et traditions visuellement.</p>
+  </div>
+</div>
+
+<!-- ==================== GÉNÉRAL ==================== -->
+<div id="general" class="section">
+  <div class="section-hero general">
+    <div class="section-hero-text">
+      <h2>Notions Générales</h2>
+      <p>Les fondements de la musique folklorique allemande</p>
+    </div>
+    <div class="section-hero-icon">📜</div>
+  </div>
+
+  <div class="section-title">Définition <div class="title-bar"></div></div>
+  <p class="section-subtitle">Ce que tu dois absolument savoir</p>
+
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-header brown">🌍 Musique folklorique</div>
+      <div class="card-body">
+        <p><strong>Définition :</strong> Musique typique d'un pays ou d'un peuple. Le compositeur est souvent <em>inconnu</em>. Elle s'accompagne souvent de <em>danses folkloriques</em>.</p>
+        <div class="mnemo">« Folk » vient de l'allemand <em>Volk</em> = peuple. Imagine tout un village qui danse !</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header brown">🎤 Musique populaire ≠ Folklorique</div>
+      <div class="card-body">
+        <p>La musique <strong>populaire</strong> contient des éléments folkloriques mais appartient à la <em>musique de divertissement</em> — son but : <strong>gagner de l'argent</strong>. La folklorique est authentique et traditionnelle.</p>
+        <div class="mnemo">Pop = Commerce. Folk = Tradition. C vs T !</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header brown">🗺️ Les 3 grandes familles</div>
+      <div class="card-body">
+        <p>1. 🏔️ <strong>Alpine</strong> — Bavière, Suisse, Autriche, nord Slovénie/Italie<br>
+        2. 🎻 <strong>Viennoise</strong> — dialecte viennois, guitare, violon<br>
+        3. ⚓ <strong>Nord</strong> — bas allemand/frison, mer, shantys</p>
+        <div class="mnemo">A-V-N = Alpine, Viennoise, Nordique. Pense « Aventure au Nord ! »</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">La Chanson Viennoise <div class="title-bar"></div></div>
+  <p class="section-subtitle">Spécialité de Vienne (Wien)</p>
+
+  <div class="highlight-box gold">
+    <h4>🎻 Caractéristiques clés</h4>
+    <ul style="margin-left:20px;line-height:2;">
+      <li>Chantée en <strong>dialecte viennois</strong> (pas l'allemand standard)</li>
+      <li>Accompagnée par : <strong>guitare, violon, contrebasse, accordéon</strong></li>
+      <li>Thèmes : <strong>convivialité</strong> et <strong>humour noir</strong> typiquement viennois</li>
+    </ul>
+    <div class="mnemo" style="margin-top:10px;border-left:3px solid var(--gold);padding-left:10px;font-style:italic;color:var(--brown);">💡 Humour noir = traiter des sujets sérieux (mort, maladie) avec légèreté. À Vienne, même la mort fait sourire !</div>
+  </div>
+
+  <div class="section-title">Tableau comparatif <div class="title-bar"></div></div>
+  <div class="table-wrap">
+    <table class="compare-table">
+      <thead><tr><th>Aspect</th><th>🏔️ Alpine</th><th>⚓ Allemagne du Nord</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Région</strong></td><td>Bavière, Suisse, Autriche, Slovénie, Italie du Nord</td><td>Partie nord de l'Allemagne, zones côtières</td></tr>
+        <tr><td><strong>Langue</strong></td><td>Dialectes alpins, allemand bavarois</td><td>Bas allemand (Plattdeutsch), frison</td></tr>
+        <tr><td><strong>Instruments clés</strong></td><td>Accordéon, cithare, cor des Alpes, hackbrett</td><td>Violon, harmonica, Schifferklavier, flûtes</td></tr>
+        <tr><td><strong>Thèmes</strong></td><td>Nature, Alpes, amour, saisons, humour</td><td>Mer, navigation, travail, nature, quotidien</td></tr>
+        <tr><td><strong>Chant spécial</strong></td><td>Yodel (alternance voix de poitrine/tête)</td><td>Shantys (chants de marins)</td></tr>
+        <tr><td><strong>Danses</strong></td><td>Transhumance, fêtes populaires, marchés de Noël</td><td>Ländler, Valse</td></tr>
+        <tr><td><strong>Costume</strong></td><td>Costume traditionnel paysan (Tracht)</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-title">Vocabulaire clé <div class="title-bar"></div></div>
+  <table class="vocab-table">
+    <thead><tr><th>Terme</th><th>Définition</th><th>Mnémotechnique</th></tr></thead>
+    <tbody>
+      <tr><td class="word">Compositeur</td><td>Artiste qui crée des œuvres musicales</td><td class="tip">Compose = crée. Le compositeur compose !</td></tr>
+      <tr><td class="word">Dialecte</td><td>Langage parlé dans une région, par opposition à la langue écrite</td><td class="tip">Di-ALECTE = la langue d'une ALECe (zone)</td></tr>
+      <tr><td class="word">Musique de divertissement</td><td>Musique destinée à l'amusement et au profit commercial</td><td class="tip">DivERTissement = VERT = argent 💰</td></tr>
+      <tr><td class="word">Costume traditionnel</td><td>Vêtements typiques d'un groupe ou d'une région</td><td class="tip">Le Tracht bavarois = la lederhose !</td></tr>
+      <tr><td class="word">Peuple</td><td>Groupe partageant la même culture, langue, origine</td><td class="tip">Volk en allemand = peuple</td></tr>
+      <tr><td class="word">Traditionnel</td><td>Conforme à sa propre tradition/culture</td><td class="tip">Tradition = transmis de génération en génération</td></tr>
+      <tr><td class="word">Marin</td><td>Employé sur un bateau</td><td class="tip">Mar = mer → marin = homme de mer</td></tr>
+      <tr><td class="word">Humour noir</td><td>Humour traitant de sujets sérieux (mort, maladie, crime)</td><td class="tip">Noir comme la mort, mais avec un sourire !</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== ALPINE ==================== -->
+<div id="alpine" class="section">
+  <div class="section-hero alpine">
+    <div class="section-hero-text">
+      <h2>Musique Folklorique Alpine</h2>
+      <p>Le trésor musical des Alpes — Autriche · Bavière · Suisse · Italie · Slovénie</p>
+    </div>
+    <div class="section-hero-icon">🏔️</div>
+  </div>
+
+  <div class="highlight-box green">
+    <h4>🌿 L'essentiel en une phrase</h4>
+    <p>La musique folklorique alpine est une <strong>tradition vivante transmise de génération en génération</strong> dans les régions entourant les Alpes — elle reflète la nature, l'amour, la vie quotidienne et les saisons à travers des mélodies joyeuses et entraînantes.</p>
+  </div>
+
+  <div class="section-title">Instruments <div class="title-bar"></div></div>
+  <p class="section-subtitle">Les 6 instruments à connaître absolument</p>
+
+  <div class="instruments-gallery">
+    <div class="instrument-card">
+      <span class="instrument-icon">🪗</span>
+      <div class="instrument-name">Accordéon</div>
+      <span class="instrument-region alpine">🏔️ Alpine</span>
+      <div class="instrument-desc">Instrument à touches et à <strong>soufflet</strong>. Produit le son en comprimant l'air à travers des anches métalliques. Emblème de la musique alpine.</div>
+      <div class="instrument-mnemo">💡 ACC-OR-déon = ACCOmpagnement d'OR des Alpes !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">🎸</span>
+      <div class="instrument-name">Cithare</div>
+      <span class="instrument-region alpine">🏔️ Alpine</span>
+      <div class="instrument-desc"><strong>Instrument à cordes</strong> originaire des Alpes. Posée à plat, jouée avec les doigts. Son délicat et cristallin.</div>
+      <div class="instrument-mnemo">💡 CI-thare = SI tranquille → cithare, l'instrument zen des Alpes !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">📯</span>
+      <div class="instrument-name">Cor des Alpes</div>
+      <span class="instrument-region alpine">🏔️ Alpine</span>
+      <div class="instrument-desc"><strong>Grand instrument à vent en bois</strong> en forme de spirale ou droit. Son grave et portant qui résonne dans les montagnes.</div>
+      <div class="instrument-mnemo">💡 Cor des ALPES → pour appeler les vaches sur les ALPES !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">🎹</span>
+      <div class="instrument-name">Hackbrett</div>
+      <span class="instrument-region alpine">🏔️ Alpine</span>
+      <div class="instrument-desc">Instrument à cordes frappées avec des petits marteaux. Ressemble à un dulcimer. Nom allemand = « planche à hacher ».</div>
+      <div class="instrument-mnemo">💡 HACK = couper → les marteaux « coupent » les cordes en les frappant !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">🎵</span>
+      <div class="instrument-name">Guitare</div>
+      <span class="instrument-region both">🌍 Alpine + Viennoise</span>
+      <div class="instrument-desc">Instrument à cordes pincées, utilisé en accompagnement dans la musique alpine et la chanson viennoise.</div>
+      <div class="instrument-mnemo">💡 La guitare unit l'Alpine et la Viennoise !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">🎷</span>
+      <div class="instrument-name">Clarinette</div>
+      <span class="instrument-region alpine">🏔️ Alpine</span>
+      <div class="instrument-desc">Instrument à vent à anche simple. Utilisée occasionnellement dans la musique folklorique alpine.</div>
+      <div class="instrument-mnemo">💡 Cla-RI-nette → RI = rire → musique joyeuse !</div>
+    </div>
+  </div>
+
+  <div class="section-title">Le Yodel 🎤 <div class="title-bar"></div></div>
+  <div class="highlight-box green">
+    <h4>Qu'est-ce que le yodel ?</h4>
+    <p>Le yodel est une <strong>technique vocale</strong> (pas un instrument, pas un genre musical !) dans laquelle le chanteur <strong>alterne rapidement entre la voix de poitrine et la voix de tête</strong>. Cela produit un son unique, reconnaissable et agréable à l'oreille.</p>
+    <br>
+    <p><strong>Voix de poitrine</strong> = voix grave, normale | <strong>Voix de tête</strong> (falsetto) = voix aiguë, légère</p>
+    <div style="margin-top:10px;border-left:3px solid var(--alpine-green);padding-left:10px;font-style:italic;color:var(--alpine-green);">
+      💡 <strong>Astuce mémo :</strong> YO-DEL = "Yo" grave + "Del" aigu → tu passes du bas vers le haut, comme une montagne !
+    </div>
+  </div>
+
+  <div class="section-title">Thèmes des chansons <div class="title-bar"></div></div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-header alpine">🌿 Nature et saisons</div>
+      <div class="card-body"><p>Les montagnes, les forêts, les prairies, le printemps, l'été, l'hiver… La nature alpine inspire profondément les textes.</p></div>
+    </div>
+    <div class="card">
+      <div class="card-header alpine">🏠 Vie quotidienne dans les Alpes</div>
+      <div class="card-body"><p>Le travail à la ferme, la vie du berger, les paysages du village. La musique raconte la vie réelle des gens.</p></div>
+    </div>
+    <div class="card">
+      <div class="card-header alpine">❤️ Amour et humour</div>
+      <div class="card-body"><p>Les chansons d'amour sont courantes. Beaucoup ont aussi un <strong>côté humoristique</strong> qui fait rire l'assemblée.</p></div>
+    </div>
+  </div>
+
+  <div class="section-title">Événements et fêtes <div class="title-bar"></div></div>
+  <details class="accordion">
+    <summary>🐄 La Transhumance (Almabtrieb)</summary>
+    <div class="accordion-body">
+      <p>La <strong>transhumance</strong> est le retour du bétail des alpages d'été vers les vallées à l'automne. C'est un événement festif majeur dans les régions alpines, accompagné de musique folklorique alpine. Les animaux sont décorés de fleurs et de cloches.</p>
+      <p><em>💡 Trans-humance = traverser les humains (hu-mains) de la montagne vers la vallée !</em></p>
+    </div>
+  </details>
+  <details class="accordion">
+    <summary>🎡 Fêtes populaires et marchés de Noël</summary>
+    <div class="accordion-body">
+      <p>La musique folklorique alpine est omniprésente lors des fêtes populaires (comme l'Oktoberfest) et des marchés de Noël (Christkindlmarkt). Les musiciens jouent en costumes traditionnels.</p>
+    </div>
+  </details>
+  <details class="accordion">
+    <summary>🏆 Concours de musique</summary>
+    <div class="accordion-body">
+      <p>Des concours sont organisés où les musiciens montrent leurs <strong>talents et leur créativité</strong>. C'est un moyen de préserver et transmettre la tradition.</p>
+    </div>
+  </details>
+
+  <div class="section-title" style="margin-top:25px;">Influences modernes <div class="title-bar"></div></div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Traditions ancestrales</div>
+      <div class="timeline-text">Musique transmise oralement de génération en génération dans les régions alpines.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">XVIIIe–XIXe siècle</div>
+      <div class="timeline-text">Codification des traditions, premiers recueils de chansons folkloriques.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Époque moderne</div>
+      <div class="timeline-text">Certains musiciens introduisent des <strong>styles et techniques modernes</strong> dans la tradition, créant un nouveau genre de musique folklorique — tout en conservant les éléments traditionnels appréciés.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== NORD ==================== -->
+<div id="nord" class="section">
+  <div class="section-hero nord">
+    <div class="section-hero-text">
+      <h2>Musique Folklorique d'Allemagne du Nord</h2>
+      <p>La mer, les marins, les shantys — Plattdeutsch & Frisian</p>
+    </div>
+    <div class="section-hero-icon">⚓</div>
+  </div>
+
+  <div class="highlight-box blue">
+    <h4>🌊 L'essentiel en une phrase</h4>
+    <p>La musique folklorique du Nord de l'Allemagne reflète la vie côtière, le travail en mer et la nature, chantée en <strong>bas allemand (Plattdeutsch)</strong> ou en <strong>frison</strong>, avec des instruments comme le violon, le Schifferklavier et l'harmonica.</p>
+  </div>
+
+  <div class="section-title">Instruments <div class="title-bar"></div></div>
+  <div class="instruments-gallery">
+    <div class="instrument-card">
+      <span class="instrument-icon">🎻</span>
+      <div class="instrument-name">Violon</div>
+      <span class="instrument-region nord">⚓ Nord</span>
+      <div class="instrument-desc"><strong>Instrument à cordes frottées à 4 cordes</strong>. Tenu sous le menton, joué avec un archet. Très répandu dans la musique folklorique du Nord.</div>
+      <div class="instrument-mnemo">💡 VI-olon = VIte → son vif et énergique comme les vagues du Nord !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">🪗</span>
+      <div class="instrument-name">Schifferklavier</div>
+      <span class="instrument-region nord">⚓ Nord</span>
+      <div class="instrument-desc">Littéralement « piano du marin ». <strong>Sorte d'accordéon diatonique</strong>, typique des régions côtières. Inventé pour les marins en bateau.</div>
+      <div class="instrument-mnemo">💡 Schiffer = marin en allemand. Le Schiffer joue du Schifferklavier !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">🎵</span>
+      <div class="instrument-name">Harmonica</div>
+      <span class="instrument-region nord">⚓ Nord</span>
+      <div class="instrument-desc"><strong>Instrument à anches métalliques tenu à la main</strong>. Le musicien souffle dedans pour produire le son. Compact, idéal pour les marins.</div>
+      <div class="instrument-mnemo">💡 Harmo-NICA = harmo-Ni-que → musique harmonieuse et portative !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">🎶</span>
+      <div class="instrument-name">Flûtes</div>
+      <span class="instrument-region nord">⚓ Nord</span>
+      <div class="instrument-desc">Différents types de flûtes en bois ou en métal sont utilisés dans la musique folklorique du nord de l'Allemagne.</div>
+      <div class="instrument-mnemo">💡 La flûte imite le vent du Nord — écoute la tempête !</div>
+    </div>
+    <div class="instrument-card">
+      <span class="instrument-icon">🥁</span>
+      <div class="instrument-name">Percussions traditionnelles</div>
+      <span class="instrument-region nord">⚓ Nord</span>
+      <div class="instrument-desc">Instruments à percussion qui accompagnent la musique, marquent le rythme des danses et des chants de marins.</div>
+      <div class="instrument-mnemo">💡 Boum-boum = le tambour des vagues qui frappent la coque !</div>
+    </div>
+  </div>
+
+  <div class="section-title">Les Shantys ⚓ <div class="title-bar"></div></div>
+  <div class="highlight-box blue">
+    <h4>Qu'est-ce qu'un shanty ?</h4>
+    <p>Un <strong>shanty</strong> (ou chanty) est une <strong>chanson de marins</strong>. Autrefois, les marins chantaient des shantys pendant leur <strong>dur labeur à bord des navires</strong> — hisser les voiles, tirer les cordes, pomper l'eau…</p>
+    <ul style="margin:10px 0 0 20px;line-height:2;">
+      <li>Mélodies <strong>simples et répétitives</strong></li>
+      <li>Paroles qui font référence à la <strong>vie en mer</strong></li>
+      <li>Rythme fort pour <strong>coordonner l'effort collectif</strong></li>
+      <li>Chantés en bas allemand ou en frison</li>
+    </ul>
+    <div style="margin-top:10px;border-left:3px solid var(--nord-blue);padding-left:10px;font-style:italic;color:var(--nord-blue);">
+      💡 <strong>Astuce mémo :</strong> SHANTY = SHAre aNd Toil Together = partager l'effort ensemble !
+    </div>
+  </div>
+
+  <div class="section-title">Types de musique et danses <div class="title-bar"></div></div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-header nord">⚓ Chants de marins</div>
+      <div class="card-body">
+        <p>Chantés en haute mer, mélodies simples, paroles sur la vie maritime. Coordonnent le travail collectif des matelots.</p>
+        <div class="mnemo">Shanty = synchroniser les efforts → musique utile !</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header nord">💃 Ländler</div>
+      <div class="card-body">
+        <p>Danse traditionnelle allemande à <strong>3 temps</strong>. Populaire en Allemagne du Nord et dans les régions alpines. Ancêtre de la valse.</p>
+        <div class="mnemo">LÄNDLER = LAND (terre) → danse terrestre, populaire dans les campagnes !</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header nord">🌀 Valse</div>
+      <div class="card-body">
+        <p>Danse à <strong>3 temps (3/4)</strong>. Les couples tournent ensemble en rythme. Populaire dans toute l'Allemagne du Nord.</p>
+        <div class="mnemo">Valse → VALSEZ ! 1-2-3, 1-2-3… trois pas, toujours trois !</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Thèmes des paroles <div class="title-bar"></div></div>
+  <table class="vocab-table">
+    <thead><tr><th>Thème</th><th>Description</th><th>Exemple mnémo</th></tr></thead>
+    <tbody>
+      <tr><td class="word">Vie quotidienne</td><td>Histoires tirées du quotidien des habitants du Nord</td><td class="tip">La vie simple des gens du Nord</td></tr>
+      <tr><td class="word">Nature & environnement</td><td>La mer du Nord, les côtes, les paysages</td><td class="tip">Vagues, vent, brume matinale</td></tr>
+      <tr><td class="word">Travail en mer</td><td>La pêche, la navigation, les tempêtes</td><td class="tip">Marins = travailleurs de la mer</td></tr>
+      <tr><td class="word">Travail à la campagne</td><td>Les agriculteurs (Bauern) du Nord</td><td class="tip">Marins ET agriculteurs = deux piliers du Nord</td></tr>
+      <tr><td class="word">Humour & jeu</td><td>Textes parfois ludiques et humoristiques</td><td class="tip">Même en mer, on rit !</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-title">La musique folklorique aujourd'hui <div class="title-bar"></div></div>
+  <details class="accordion">
+    <summary>🎪 Festivals et événements</summary>
+    <div class="accordion-body">
+      <p>Il existe de nombreux <strong>festivals de musique</strong> et événements où la musique folklorique du Nord est jouée. Ces festivals rassemblent musiciens traditionnels et amateurs de culture régionale.</p>
+    </div>
+  </details>
+  <details class="accordion">
+    <summary>🎸 Musique traditionnelle vs moderne</summary>
+    <div class="accordion-body">
+      <p>Certains musiciens jouent la <strong>musique folklorique traditionnelle pure</strong>, tandis que d'autres proposent des <strong>versions modernes</strong> ou des mélanges avec d'autres styles musicaux. Les deux coexistent et enrichissent la tradition.</p>
+    </div>
+  </details>
+
+  <div class="section-title" style="margin-top:25px;">Vocabulaire spécifique Nord <div class="title-bar"></div></div>
+  <table class="vocab-table">
+    <thead><tr><th>Terme</th><th>Définition</th><th>Mnémotechnique</th></tr></thead>
+    <tbody>
+      <tr><td class="word">Bas allemand (Plattdeutsch)</td><td>Dialecte parlé dans le nord de l'Allemagne</td><td class="tip">PLATT = plat → le nord de l'Allemagne est plat !</td></tr>
+      <tr><td class="word">Frison</td><td>Langue régionale parlée en Frise (côte nord-ouest)</td><td class="tip">Frison → Frise → bord de mer !</td></tr>
+      <tr><td class="word">Schifferklavier</td><td>Accordéon diatonique du marin</td><td class="tip">Schiffer = marin + Klavier = clavier</td></tr>
+      <tr><td class="word">Ländler</td><td>Danse traditionnelle à 3 temps, ancêtre de la valse</td><td class="tip">Land = pays → danse du pays !</td></tr>
+      <tr><td class="word">Festival de musique</td><td>Événement où l'on joue de la musique</td><td class="tip">Festival = fête + musique !</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== INSTRUMENTS ==================== -->
+<div id="instruments" class="section">
+  <div class="section-hero general">
+    <div class="section-hero-text">
+      <h2>Galerie des Instruments</h2>
+      <p>Identifie, mémorise et distingue chaque instrument par région</p>
+    </div>
+    <div class="section-hero-icon">🎸</div>
+  </div>
+
+  <div class="section-title">Tous les instruments en un coup d'œil <div class="title-bar"></div></div>
+  <div class="table-wrap">
+    <table class="vocab-table">
+      <thead><tr><th>Instrument</th><th>Région</th><th>Type</th><th>Caractéristique</th><th>Mnémo</th></tr></thead>
+      <tbody>
+        <tr><td class="word">🪗 Accordéon</td><td><span class="badge badge-alpine">Alpine</span></td><td>Touches + soufflet</td><td>Anches métalliques, son riche</td><td class="tip">ACC-OR = l'OR des Alpes !</td></tr>
+        <tr><td class="word">🎸 Cithare</td><td><span class="badge badge-alpine">Alpine</span></td><td>Cordes pincées</td><td>Posée à plat, originaire des Alpes</td><td class="tip">CI = SI doux et cristallin</td></tr>
+        <tr><td class="word">📯 Cor des Alpes</td><td><span class="badge badge-alpine">Alpine</span></td><td>Cuivre / bois, vent</td><td>Grand, grave, spirale ou droit</td><td class="tip">Pour appeler les vaches !</td></tr>
+        <tr><td class="word">🎹 Hackbrett</td><td><span class="badge badge-alpine">Alpine</span></td><td>Cordes frappées</td><td>Marteaux, « planche à hacher »</td><td class="tip">HACK = frapper !</td></tr>
+        <tr><td class="word">🎷 Clarinette</td><td><span class="badge badge-alpine">Alpine</span></td><td>Vent, anche simple</td><td>Occasionnelle en musique alpine</td><td class="tip">CLA = CLAiron de la montagne</td></tr>
+        <tr><td class="word">🎻 Violon</td><td><span class="badge badge-nord">Nord + Viennoise</span></td><td>Cordes frottées, 4 cordes</td><td>Archet, tenu sous le menton</td><td class="tip">VI = Vif comme les vagues !</td></tr>
+        <tr><td class="word">🪗 Schifferklavier</td><td><span class="badge badge-nord">Nord</span></td><td>Accordéon diatonique</td><td>Accordion du marin, côtier</td><td class="tip">Schiffer = marin en all.</td></tr>
+        <tr><td class="word">🎵 Harmonica</td><td><span class="badge badge-nord">Nord</span></td><td>Anches métalliques, souffle</td><td>Tenu à la main, très compact</td><td class="tip">Harmo = harmonie portable !</td></tr>
+        <tr><td class="word">🎶 Flûtes (diverses)</td><td><span class="badge badge-nord">Nord</span></td><td>Vent</td><td>Bois ou métal, diverses formes</td><td class="tip">Flûte = flou du vent nordique</td></tr>
+        <tr><td class="word">🥁 Percussions</td><td><span class="badge badge-nord">Nord</span></td><td>Percussion</td><td>Accompagnement rythmique</td><td class="tip">Boom = vague sur la coque !</td></tr>
+        <tr><td class="word">🎵 Guitare</td><td><span class="badge badge-general">Alpine + Viennoise</span></td><td>Cordes pincées</td><td>Accompagnement universel</td><td class="tip">La guitare est partout !</td></tr>
+        <tr><td class="word">🎻 Contrebasse</td><td><span class="badge badge-general">Viennoise</span></td><td>Cordes frottées, grande</td><td>La plus grave des cordes</td><td class="tip">CONTRebasse = CONTRE le grave = très grave !</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-title">Cuivres alpins <div class="title-bar"></div></div>
+  <div class="highlight-box green">
+    <h4>🎺 La musique pour instruments à vent</h4>
+    <p>Dans les régions alpines, la <strong>musique pour instruments à vent</strong> (cuivres : trompette, tuba, cor, trombone…) joue un rôle important, notamment dans les fanfares villageoises (Blaskapelle). Ces ensembles animant les fêtes populaires et les marchés de Noël.</p>
+    <div style="margin-top:8px;font-style:italic;color:var(--alpine-green);">💡 Cuivre = instrument à vent en métal. Cor des Alpes est un cuivre !</div>
+  </div>
+
+  <div class="section-title">Identifier visuellement un instrument <div class="title-bar"></div></div>
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-header alpine">🔍 Accordéon vs Schifferklavier</div>
+      <div class="card-body">
+        <p><strong>Accordéon</strong> (Alpine) : grand, touches à droite + boutons à gauche.<br><strong>Schifferklavier</strong> (Nord) : plus petit, accordéon diatonique, rangées de boutons des deux côtés.</p>
+        <div class="mnemo">Taille et contexte : Alpes vs Mer !</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header alpine">🔍 Cithare vs Guitare</div>
+      <div class="card-body">
+        <p><strong>Cithare</strong> : posée à plat, cadre de bois avec cordes, pas de manche long.<br><strong>Guitare</strong> : tenue verticalement, long manche avec frettes.</p>
+        <div class="mnemo">Cithare = plate, guitare = debout !</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header nord">🔍 Violon vs Contrebasse</div>
+      <div class="card-body">
+        <p><strong>Violon</strong> : petit, tenu sous le menton, aigu.<br><strong>Contrebasse</strong> : énorme, posée par terre, grave (chanson viennoise).</p>
+        <div class="mnemo">Violon = mini, Contrebasse = géant !</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FLASHCARDS ==================== -->
+<div id="flashcards" class="section">
+  <div class="section-hero general">
+    <div class="section-hero-text">
+      <h2>Flashcards</h2>
+      <p>Clique sur la carte pour révéler la définition et l'astuce mémo</p>
+    </div>
+    <div class="section-hero-icon">🃏</div>
+  </div>
+
+  <div class="flashcard-container">
+    <div class="flashcard" id="fc" onclick="flipCard()">
+      <div class="card-front">
+        <div class="flashcard-word" id="fc-word">Chargement…</div>
+        <div class="flashcard-hint">Clique pour révéler</div>
+        <div id="fc-badge" style="margin-top:10px;"></div>
+      </div>
+      <div class="card-back">
+        <div class="flashcard-def" id="fc-def"></div>
+        <div class="flashcard-mnemo" id="fc-mnemo"></div>
+      </div>
+    </div>
+    <div class="flashcard-nav">
+      <button class="btn btn-secondary" onclick="prevCard()">← Précédent</button>
+      <div class="flashcard-counter"><span id="fc-cur">1</span> / <span id="fc-tot">1</span></div>
+      <button class="btn btn-primary" onclick="nextCard()">Suivant →</button>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-secondary" onclick="shuffleCards()" style="font-size:0.9rem;padding:8px 20px;">🔀 Mélanger</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== QUIZ ==================== -->
+<div id="quiz" class="section">
+  <div class="section-hero general">
+    <div class="section-hero-text">
+      <h2>Quiz Complet</h2>
+      <p>30 questions avec explications détaillées</p>
+    </div>
+    <div class="section-hero-icon">✏️</div>
+  </div>
+
+  <div class="quiz-selector" id="quiz-selector">
+    <div style="text-align:center;width:100%;margin-bottom:10px;">
+      <h3 style="font-family:'Playfair Display',serif;margin-bottom:6px;">Choisir un thème :</h3>
+    </div>
+    <button class="quiz-sel-btn selected" onclick="selectQuizSet('all',this)">🌍 Tout (30 Q)</button>
+    <button class="quiz-sel-btn" onclick="selectQuizSet('general',this)">📜 Général (8 Q)</button>
+    <button class="quiz-sel-btn" onclick="selectQuizSet('alpine',this)">🏔️ Alpine (12 Q)</button>
+    <button class="quiz-sel-btn" onclick="selectQuizSet('nord',this)">⚓ Nord (10 Q)</button>
+    <div style="width:100%;text-align:center;margin-top:8px;">
+      <button class="btn btn-primary" onclick="startQuiz()">▶ Commencer le quiz</button>
+    </div>
+  </div>
+
+  <div id="quiz-area" style="display:none;">
+    <div class="quiz-container">
+      <div class="quiz-q-num" id="quiz-q-num">Question 1 / 30</div>
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar" id="quiz-pb" style="width:0%"></div>
+      </div>
+      <div class="quiz-question" id="quiz-question-box">
+        <div class="q-text" id="q-text"></div>
+        <div class="q-context" id="q-context"></div>
+        <div class="quiz-options" id="q-options"></div>
+        <div class="quiz-explanation" id="q-explanation"></div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-secondary" id="quiz-next-btn" onclick="nextQuestion()" style="display:none;">Question suivante →</button>
+      </div>
+      <div style="text-align:center;margin-top:12px;">
+        <button class="btn" onclick="resetQuiz()" style="background:var(--parchment);font-size:0.85rem;padding:8px 16px;">↩ Recommencer</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz-score" style="display:none;">
+    <div class="quiz-container">
+      <div class="score-display">
+        <div class="score-circle">
+          <div class="score-num" id="score-num">0</div>
+          <div class="score-denom" id="score-denom">/ 0</div>
         </div>
-    </main>
+        <div class="score-message" id="score-message"></div>
+        <div class="score-sub" id="score-sub"></div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="startQuiz()">🔁 Refaire ce quiz</button>
+          <button class="btn btn-secondary" onclick="resetQuiz()">📋 Choisir un autre thème</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <footer>
-        <p>&copy; 2024 Site d'offilisiation du cartel de sinaloa au sein de madonne studio</p>
-    </footer>
+<!-- ==================== MATCHING ==================== -->
+<div id="matching" class="section">
+  <div class="section-hero general">
+    <div class="section-hero-text">
+      <h2>Exercices d'Association</h2>
+      <p>Relie chaque terme à sa définition — inspiré des exercices du PDF</p>
+    </div>
+    <div class="section-hero-icon">🔗</div>
+  </div>
 
-    <script src="script.js"></script>
+  <div class="quiz-selector" style="justify-content:flex-start;gap:10px;margin-bottom:20px;">
+    <button class="quiz-sel-btn selected" onclick="selectMatchSet(0,this)">📜 Général & Vocabulaire</button>
+    <button class="quiz-sel-btn" onclick="selectMatchSet(1,this)">🏔️ Alpine</button>
+    <button class="quiz-sel-btn" onclick="selectMatchSet(2,this)">⚓ Nord</button>
+  </div>
+
+  <div class="matching-container">
+    <div id="match-instructions" class="highlight-box gold" style="margin-bottom:18px;">
+      <h4>📌 Comment jouer ?</h4>
+      <p>Clique sur un terme à gauche, puis clique sur la définition correspondante à droite. Si c'est correct, les deux deviennent verts. Essaie de tout associer !</p>
+    </div>
+    <div id="match-score-bar" style="display:none;margin-bottom:15px;text-align:center;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);"></div>
+    <div class="matching-grid">
+      <div>
+        <h4 id="match-left-title">Termes</h4>
+        <div id="match-left"></div>
+      </div>
+      <div>
+        <h4 id="match-right-title">Définitions</h4>
+        <div id="match-right"></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="resetMatch()">🔁 Recommencer</button>
+      <button class="btn btn-secondary" onclick="checkAllMatch()">✅ Vérifier tout</button>
+    </div>
+    <div id="match-result" style="display:none;margin-top:20px;" class="highlight-box green"></div>
+  </div>
+</div>
+
+<!-- ==================== IMAGES ==================== -->
+<div id="images" class="section">
+  <div class="section-hero general">
+    <div class="section-hero-text">
+      <h2>Reconnais l'Instrument !</h2>
+      <p>Identifie l'instrument, sa tradition et justifie ta réponse</p>
+    </div>
+    <div class="section-hero-icon">🖼️</div>
+  </div>
+
+  <div class="quiz-container">
+    <div id="img-quiz-area">
+      <div class="quiz-q-num" id="img-q-num">Image 1 / 12</div>
+      <div class="quiz-progress">
+        <div class="quiz-progress-bar" id="img-pb" style="width:0%"></div>
+      </div>
+
+      <div class="image-quiz-card">
+        <div class="img-display" id="img-display">
+          <span id="img-icon" style="font-size:6rem;">🎵</span>
+        </div>
+        <div class="q-text" id="img-q-text" style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:6px;">Quel instrument est représenté ?</div>
+        <div class="q-context" id="img-q-context" style="font-size:0.88rem;color:#777;font-style:italic;margin-bottom:14px;"></div>
+        <div class="quiz-options" id="img-options"></div>
+        <div class="quiz-explanation" id="img-explanation"></div>
+      </div>
+      <div class="quiz-nav">
+        <button class="btn btn-secondary" id="img-next-btn" onclick="nextImgQ()" style="display:none;">Image suivante →</button>
+      </div>
+    </div>
+    <div id="img-score" style="display:none;" class="score-display">
+      <div class="score-circle">
+        <div class="score-num" id="img-score-num">0</div>
+        <div class="score-denom" id="img-score-denom">/ 12</div>
+      </div>
+      <div class="score-message" id="img-score-msg"></div>
+      <div class="score-sub" style="margin-bottom:20px;">Tu as bien identifié les instruments et leurs traditions !</div>
+      <button class="btn btn-primary" onclick="startImgQuiz()">🔁 Rejouer</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ===================== NAVIGATION =====================
+function showSection(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ===================== FLASHCARDS =====================
+const flashcards = [
+  {word:'Musique folklorique',region:'general',def:'Musique typique d\'un pays ou d\'un peuple. Le compositeur est souvent inconnu. S\'accompagne de danses folkloriques.',mnemo:'Folk = Volk (allemand) = peuple. La musique DU peuple !'},
+  {word:'Compositeur',region:'general',def:'Artiste qui crée des œuvres musicales.',mnemo:'ComPOSE → il POSE les notes sur la page !'},
+  {word:'Dialecte',region:'general',def:'Langage parlé dans une région, par opposition à la langue écrite standard.',mnemo:'Di-ALECTE = la langue d\'une zone spécifique. Viennois, bas allemand, frison…'},
+  {word:'Musique de divertissement',region:'general',def:'Musique destinée à l\'amusement et au profit commercial. Contient des éléments folkloriques mais n\'est pas authentique.',mnemo:'Diver-TIS-sement = TIS (argent) → but commercial !'},
+  {word:'Costume traditionnel (Tracht)',region:'alpine',def:'Vêtements typiques d\'un groupe ou d\'une région. La musique alpine est jouée en costume traditionnel paysan.',mnemo:'Le Lederhosen bavarois = short en cuir = TRACHT !'},
+  {word:'Humour noir',region:'general',def:'Humour traitant de sujets sérieux (mort, maladie, crime) avec légèreté. Typique de la chanson viennoise.',mnemo:'NOIR comme la mort, mais avec un SOURIRE. À Vienne, on rit de tout !'},
+  {word:'Peuple',region:'general',def:'Groupe partageant la même culture, langue et origine.',mnemo:'VOLK en allemand. Volksmusik = musique du peuple !'},
+  {word:'Marin',region:'nord',def:'Personne qui travaille sur un bateau.',mnemo:'MAR = MER → le marin est l\'homme de la MER !'},
+  {word:'Accordéon',region:'alpine',def:'Instrument à touches et à soufflet. Les anches métalliques vibrent quand l\'air passe. Emblème de la musique alpine.',mnemo:'ACC-OR-déon = l\'OR musical des ALPES !'},
+  {word:'Cithare',region:'alpine',def:'Instrument à cordes pincées, posé à plat, originaire des Alpes. Son délicat et cristallin.',mnemo:'CI-thare = SI cristallin et doux !'},
+  {word:'Cor des Alpes',region:'alpine',def:'Grand instrument à vent (cuivre/bois) en forme de spirale ou droit. Son grave qui résonne dans les montagnes.',mnemo:'Cor des ALPES → pour appeler les vaches sur les ALPES !'},
+  {word:'Hackbrett',region:'alpine',def:'Instrument à cordes frappées avec des marteaux. Nom allemand = "planche à hacher".',mnemo:'HACK = frapper/couper → les marteaux frappent les cordes !'},
+  {word:'Yodel',region:'alpine',def:'Technique vocale (pas un instrument !) : alternance rapide entre voix de poitrine (grave) et voix de tête (aiguë). Produit un son unique.',mnemo:'YO grave → DEL aigu → comme une montagne qui monte et descend !'},
+  {word:'Voix de poitrine',region:'alpine',def:'Voix normale, grave, produite depuis la poitrine (partie basse). Première partie du yodel.',mnemo:'POITRINE = grave, profond, comme un tambour dans la cage thoracique !'},
+  {word:'Voix de tête',region:'alpine',def:'Voix aiguë, légère, produite dans la tête (falsetto). Deuxième partie du yodel.',mnemo:'TÊTE = haut → la voix monte vers la tête !'},
+  {word:'Transhumance',region:'alpine',def:'Tradition consistant à ramener le bétail des alpages d\'été vers les vallées à l\'automne. Accompagnée de musique alpine.',mnemo:'Trans-HU-mance = traverser avec les bêtes HU (humides de rosée) des montagnes !'},
+  {word:'Schifferklavier',region:'nord',def:'Sorte d\'accordéon diatonique utilisé par les marins. Typique des régions côtières du Nord. "Schiffer" = marin en allemand.',mnemo:'SCHIFFER (marin) + KLAVIER (clavier) = le clavier du marin !'},
+  {word:'Harmonica',region:'nord',def:'Instrument à anches métalliques tenu à la main. Le musicien souffle dedans. Très compact, idéal pour les marins.',mnemo:'Harmo-NICA = harmonie portative et NICAment pratique !'},
+  {word:'Shanty',region:'nord',def:'Chanson de marins. Chantée pendant le dur labeur à bord des navires. Mélodies simples, paroles sur la vie en mer. Coordonne l\'effort collectif.',mnemo:'SHANTY = partager l\'effort en chantant ensemble sur le bateau !'},
+  {word:'Bas allemand (Plattdeutsch)',region:'nord',def:'Dialecte parlé dans le nord de l\'Allemagne. Utilisé dans les chansons folkloriques du Nord.',mnemo:'PLATT = plat (comme les plaines du Nord) → langue des régions plates !'},
+  {word:'Frison',region:'nord',def:'Langue régionale parlée en Frise, sur la côte nord-ouest de l\'Allemagne.',mnemo:'FRISON → FRISE → bord de mer, comme une frise (bordure) '},
+  {word:'Ländler',region:'nord',def:'Danse traditionnelle allemande à 3 temps. Populaire en Allemagne du Nord et dans les régions alpines. Ancêtre de la valse.',mnemo:'LAND (pays) + ler → la danse du pays, ancrée dans la terre !'},
+  {word:'Valse',region:'nord',def:'Danse à 3 temps (3/4). Les couples tournent ensemble en rythme. 1-2-3, 1-2-3…',mnemo:'VALSEZ ! 1-2-3, 1-2-3… toujours trois pas !'},
+  {word:'Musique folklorique alpine',region:'alpine',def:'Tradition vivante des régions alpines (Autriche, Bavière, Suisse, Italie du Nord, Slovénie). Transmise de génération en génération.',mnemo:'ALPINE = ALPES = montagnes. La musique des sommets enneigés !'},
+];
+
+let fcIndex = 0;
+let fcOrder = [...Array(flashcards.length).keys()];
+let fcFlipped = false;
+
+function renderCard() {
+  const card = flashcards[fcOrder[fcIndex]];
+  document.getElementById('fc-word').textContent = card.word;
+  document.getElementById('fc-def').textContent = card.def;
+  document.getElementById('fc-mnemo').textContent = '💡 ' + card.mnemo;
+  const badges = {alpine:'🏔️ Alpine',nord:'⚓ Nord',general:'📜 Général'};
+  const colors = {alpine:'var(--alpine-green)',nord:'var(--nord-blue)',general:'var(--brown)'};
+  document.getElementById('fc-badge').innerHTML = `<span style="background:rgba(255,255,255,0.2);padding:3px 12px;border-radius:20px;font-size:0.8rem;">${badges[card.region]||''}</span>`;
+  document.getElementById('fc-cur').textContent = fcIndex+1;
+  document.getElementById('fc-tot').textContent = flashcards.length;
+  document.getElementById('fc').classList.remove('flipped');
+  fcFlipped = false;
+}
+
+function flipCard() {
+  document.getElementById('fc').classList.toggle('flipped');
+  fcFlipped = !fcFlipped;
+}
+function nextCard() { fcIndex = (fcIndex+1)%flashcards.length; renderCard(); }
+function prevCard() { fcIndex = (fcIndex-1+flashcards.length)%flashcards.length; renderCard(); }
+function shuffleCards() {
+  for(let i=fcOrder.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[fcOrder[i],fcOrder[j]]=[fcOrder[j],fcOrder[i]];}
+  fcIndex=0; renderCard(); showNotif('🔀 Cartes mélangées !','success');
+}
+renderCard();
+
+// ===================== QUIZ DATA =====================
+const allQuestions = [
+  // GÉNÉRAL (8)
+  {set:'general',q:'Qu\'est-ce que la musique folklorique ?',ctx:'Notions générales',opts:['De la musique créée par un compositeur célèbre pour gagner de l\'argent','Une musique typique d\'un pays ou d\'un peuple, dont le compositeur est souvent inconnu','La même chose que la musique de divertissement','Une musique uniquement instrumentale'],ans:1,exp:'La musique <strong>folklorique</strong> est une musique typique d\'un peuple ou d\'un pays. Le <strong>compositeur est souvent inconnu</strong>. Elle s\'accompagne souvent de danses. Elle NE DOIT PAS être confondue avec la musique populaire (commerciale).'},
+  {set:'general',q:'Quelle est la différence entre musique folklorique et musique populaire ?',ctx:'Notions générales',opts:['Il n\'y a aucune différence','La musique folklorique sert à gagner de l\'argent, la populaire non','La musique populaire est de divertissement et vise le profit commercial, la folklorique est authentique et traditionnelle','La musique populaire est plus ancienne'],ans:2,exp:'La musique <strong>populaire</strong> contient des éléments folkloriques mais appartient à la <strong>musique de divertissement</strong> — son but principal est de <strong>gagner de l\'argent</strong>. La folklorique est authentique et traditionnelle.'},
+  {set:'general',q:'En quel dialecte est chantée la chanson viennoise ?',ctx:'Chanson viennoise',opts:['En frison','En bas allemand','En dialecte viennois','En bavarois'],ans:2,exp:'La <strong>chanson viennoise</strong> est spécifiquement chantée en <strong>dialecte viennois</strong> — pas en allemand standard. C\'est ce qui la rend si particulière et reconnaissable.'},
+  {set:'general',q:'Quels sont les thèmes de la chanson viennoise ?',ctx:'Chanson viennoise',opts:['La mer et la navigation','La convivialité et l\'humour noir','La nature et les montagnes','L\'amour romantique uniquement'],ans:1,exp:'La <strong>chanson viennoise</strong> traite de la <strong>convivialité</strong> (Gemütlichkeit) et de l\'<strong>humour noir</strong> typiquement viennois — humour qui traite de sujets sérieux comme la mort avec légèreté.'},
+  {set:'general',q:'Qu\'est-ce que l\'humour noir ?',ctx:'Vocabulaire général',opts:['Un humour sur les couleurs sombres','Un humour traitant de sujets sérieux comme la mort ou la maladie avec légèreté','Un humour destiné aux enfants','Un style de comédie moderne'],ans:1,exp:'L\'<strong>humour noir</strong> traite de sujets sérieux (mort, maladie, crime…) avec <strong>légèreté et ironie</strong>. C\'est une spécialité viennoise : même les sujets graves font sourire !'},
+  {set:'general',q:'Quel instrument accompagne typiquement la chanson viennoise ?',ctx:'Chanson viennoise',opts:['Le cor des Alpes','Le Schifferklavier','Le violon','La batterie'],ans:2,exp:'La chanson viennoise est souvent accompagnée par la <strong>guitare, le violon, la contrebasse ou l\'accordéon</strong>. Le <strong>violon</strong> est particulièrement emblématique de ce style.'},
+  {set:'general',q:'Dans combien de pays pratique-t-on la musique folklorique alpine ?',ctx:'Régions alpines',opts:['2 pays','3 pays','5 pays (Autriche, Allemagne, Suisse, Italie, Slovénie)','7 pays'],ans:2,exp:'La musique folklorique alpine se pratique dans <strong>5 pays</strong> : la <strong>Bavière (Allemagne), la Suisse, l\'Autriche, le nord de la Slovénie et le nord de l\'Italie</strong>.'},
+  {set:'general',q:'Comment se transmettait la musique folklorique ?',ctx:'Transmission culturelle',opts:['Par des partitions écrites uniquement','Oralement, de génération en génération','Par les médias modernes','Par les conservatoires royaux'],ans:1,exp:'La musique folklorique est une <strong>tradition orale</strong> — transmise de <strong>génération en génération</strong> sans nécessairement être écrite. C\'est pour cela que le compositeur est souvent inconnu !'},
+
+  // ALPINE (12)
+  {set:'alpine',q:'Qu\'est-ce que le yodel ?',ctx:'Musique folklorique alpine — technique vocale',opts:['Un instrument de musique à cordes','Un genre musical complet','Une technique vocale avec alternance rapide entre voix de poitrine et voix de tête','Un style de danse traditionnel'],ans:2,exp:'Le <strong>yodel</strong> est une <strong>technique vocale</strong> (et non un instrument ou un genre). Le chanteur alterne rapidement entre la <strong>voix de poitrine</strong> (grave) et la <strong>voix de tête</strong> (aiguë/falsetto), produisant un son unique.'},
+  {set:'alpine',q:'Quel instrument est considéré comme l\'emblème de la musique folklorique alpine ?',ctx:'Instruments alpins',opts:['La trompette','L\'accordéon','Le saxophone','La contrebasse'],ans:1,exp:'L\'<strong>accordéon</strong> est l\'instrument le plus emblématique de la musique alpine. C\'est un instrument à touches et à soufflet, dont les anches métalliques vibrent quand l\'air les traverse.'},
+  {set:'alpine',q:'Qu\'est-ce que la cithare ?',ctx:'Instruments alpins',opts:['Un instrument à vent en cuivre','Un instrument à cordes posé à plat, originaire des Alpes','Un type d\'accordéon','Un instrument à percussion'],ans:1,exp:'La <strong>cithare</strong> est un instrument à <strong>cordes pincées</strong>, posé <strong>à plat</strong> sur une table. Elle est originaire des Alpes et produit un son délicat et cristallin. À ne pas confondre avec la guitare !'},
+  {set:'alpine',q:'Comment est joué le hackbrett ?',ctx:'Instruments alpins',opts:['Avec un archet','Avec de petits marteaux qui frappent les cordes','Avec les doigts qui pincent les cordes','En soufflant dedans'],ans:1,exp:'Le <strong>hackbrett</strong> est joué avec de petits <strong>marteaux</strong> qui frappent les cordes. Son nom allemand signifie « planche à hacher » (Hacken + Brett). C\'est un instrument à cordes frappées.'},
+  {set:'alpine',q:'Lors de quel événement la musique folklorique alpine est-elle particulièrement présente ?',ctx:'Événements alpins',opts:['Les festivals de jazz','La transhumance','Les concerts de rock','Les opéras'],ans:1,exp:'La <strong>transhumance</strong> est le retour du bétail des alpages d\'été vers les vallées. C\'est un événement festif majeur accompagné de musique folklorique alpine. Les animaux sont décorés de fleurs et de cloches.'},
+  {set:'alpine',q:'Qu\'est-ce que la transhumance ?',ctx:'Événements alpins',opts:['Un type de danse alpine','Un festival de musique en montagne','Le retour du bétail des alpages d\'été vers les vallées','Une technique de chant'],ans:2,exp:'La <strong>transhumance</strong> (Almabtrieb) est la tradition de <strong>ramener le bétail des alpages d\'été vers les vallées</strong> à l\'automne. C\'est un moment festif avec de la musique, des décorations et des cloches.'},
+  {set:'alpine',q:'Quels thèmes les chansons alpines traitent-elles principalement ?',ctx:'Thèmes alpins',opts:['Science-fiction et technologie','Nature, vie quotidienne, amour et saisons','Guerre et politique','Vie urbaine et modernité'],ans:1,exp:'Les chansons alpines parlent de la <strong>nature</strong> (montagnes, forêts), de la <strong>vie quotidienne dans les Alpes</strong>, de l\'<strong>amour</strong> et des <strong>saisons</strong>. Beaucoup ont aussi un côté humoristique.'},
+  {set:'alpine',q:'Comment sont souvent décrites les mélodies de la musique folklorique alpine ?',ctx:'Caractéristiques musicales',opts:['Sombres et mélancoliques','Lentes et apaisantes','Joyeuses et entraînantes','Complexes et difficiles'],ans:2,exp:'Les mélodies alpines sont souvent décrites comme <strong>joyeuses et entraînantes</strong> — elles donnent envie de chanter ou de danser ! C\'est une musique vivante et festive.'},
+  {set:'alpine',q:'Dans quels pays pratique-t-on la musique folklorique alpine ?',ctx:'Régions alpines',opts:['France, Espagne, Portugal','Autriche, Allemagne (Bavière), Suisse, Italie du Nord, Slovénie','Russie, Ukraine, Pologne','Danemark, Suède, Norvège'],ans:1,exp:'La musique folklorique alpine vient des régions des <strong>Alpes</strong> : <strong>Autriche, Bavière (Allemagne), Suisse, nord de l\'Italie et nord de la Slovénie</strong>.'},
+  {set:'alpine',q:'Qu\'est-ce que le cor des Alpes ?',ctx:'Instruments alpins',opts:['Un petit instrument à anche','Un grand instrument à vent en bois ou en métal, au son grave et portant','Un instrument à cordes pincées','Un accordéon de grande taille'],ans:1,exp:'Le <strong>cor des Alpes</strong> est un grand instrument à vent, traditionnellement fabriqué en bois, au son <strong>grave et très portant</strong>. Il résonne dans les vallées alpines et servait à l\'origine à communiquer entre bergers.'},
+  {set:'alpine',q:'Qu\'est-ce qu\'une clarinette dans la musique alpine ?',ctx:'Instruments alpins',opts:['Un instrument à cordes frottées','Un instrument à vent à anche simple, utilisé occasionnellement','Un instrument à percussion','Un type d\'accordéon'],ans:1,exp:'La <strong>clarinette</strong> est un <strong>instrument à vent à anche simple</strong>. Elle est utilisée <strong>occasionnellement</strong> (pas systématiquement) dans la musique folklorique alpine.'},
+  {set:'alpine',q:'Qu\'ont introduit les musiciens modernes dans la musique folklorique alpine ?',ctx:'Évolution moderne',opts:['Ils ont abandonné tous les instruments traditionnels','Des styles et techniques modernes, créant un nouveau genre tout en préservant la tradition','Uniquement de la musique électronique','Ils n\'ont rien changé'],ans:1,exp:'À l\'époque moderne, certains musiciens ont introduit des <strong>styles et techniques modernes</strong> dans la tradition alpine, créant un <strong>nouveau genre de musique folklorique</strong>. Malgré ces changements, la tradition reste très appréciée.'},
+
+  // NORD (10)
+  {set:'nord',q:'Qu\'est-ce que le Schifferklavier ?',ctx:'Musique folklorique d\'Allemagne du Nord',opts:['Un type de violon','Un piano spécial pour les marins','Une sorte d\'accordéon diatonique typique des régions côtières','Un instrument à percussion'],ans:2,exp:'Le <strong>Schifferklavier</strong> est une sorte d\'<strong>accordéon diatonique</strong>. "Schiffer" signifie marin en allemand. Il était <strong>typiquement utilisé par les marins</strong> et est emblématique des régions côtières du Nord de l\'Allemagne.'},
+  {set:'nord',q:'En quelle(s) langue(s) est souvent chantée la musique folklorique du Nord de l\'Allemagne ?',ctx:'Langues du Nord',opts:['En allemand standard uniquement','En anglais','En bas allemand (Plattdeutsch) ou en frison','En néerlandais'],ans:2,exp:'La musique folklorique du Nord est souvent chantée en <strong>bas allemand (Plattdeutsch)</strong> ou en <strong>frison</strong> — deux dialectes/langues régionales du Nord de l\'Allemagne.'},
+  {set:'nord',q:'Qu\'est-ce qu\'un shanty ?',ctx:'Chants de marins',opts:['Un type de danse allemande','Une chanson de marins, chantée pendant le travail à bord des navires','Un instrument à vent','Un festival de musique'],ans:1,exp:'Un <strong>shanty</strong> est une <strong>chanson de marins</strong>. Autrefois, les marins chantaient des shantys pendant leur <strong>dur labeur à bord des navires</strong> (hisser les voiles, tirer les cordes…) pour coordonner leurs efforts.'},
+  {set:'nord',q:'Quels sont les thèmes typiques de la musique folklorique du Nord de l\'Allemagne ?',ctx:'Thèmes nordiques',opts:['Les montagnes et les Alpes','La mer, la navigation et le travail côtier','La vie urbaine de Berlin','L\'amour romantique uniquement'],ans:1,exp:'Les thèmes typiques du Nord sont la <strong>mer, la navigation</strong> et la <strong>vie quotidienne</strong> des marins et agriculteurs. Les textes racontent la vie des côtes et des plaines du Nord.'},
+  {set:'nord',q:'Qu\'est-ce qu\'un Ländler ?',ctx:'Danses du Nord',opts:['Un festival de musique','Une chanson de marins','Une danse traditionnelle allemande à 3 temps','Un type d\'accordéon'],ans:2,exp:'Le <strong>Ländler</strong> est une <strong>danse traditionnelle allemande à 3 temps</strong>. Populaire en Allemagne du Nord et dans les régions alpines. C\'est l\'ancêtre de la valse — "Land" signifie pays/terre.'},
+  {set:'nord',q:'Comment sont souvent décrites les mélodies des chants de marins (shantys) ?',ctx:'Caractéristiques des shantys',opts:['Très complexes et difficiles à chanter','Simples et répétitives, avec des paroles sur la vie en mer','Mélancoliques et lentes','Modernes et électroniques'],ans:1,exp:'Les shantys ont des <strong>mélodies simples et répétitives</strong> avec des <strong>paroles sur la vie en mer</strong>. Cette simplicité était nécessaire pour que les marins puissent les chanter tout en travaillant dur.'},
+  {set:'nord',q:'Qu\'est-ce que l\'harmonica dans la musique du Nord ?',ctx:'Instruments du Nord',opts:['Un instrument à cordes frottées','Un instrument à anches métalliques tenu à la main, où l\'on souffle','Un accordéon de grande taille','Un instrument à percussion'],ans:1,exp:'L\'<strong>harmonica</strong> est un instrument à <strong>anches métalliques</strong> tenu à la main. Le musicien <strong>souffle dedans</strong> pour produire le son. Sa taille compacte le rendait idéal pour les marins.'},
+  {set:'nord',q:'Quel type de danse est la valse ?',ctx:'Danses du Nord',opts:['Une danse à 2 temps','Une danse à 4 temps','Une danse à 3 temps (3/4)','Une danse sans musique'],ans:2,exp:'La <strong>valse</strong> est une danse à <strong>3 temps (3/4)</strong>. Les couples tournent ensemble : 1-2-3, 1-2-3… Elle est populaire dans tout le Nord de l\'Allemagne.'},
+  {set:'nord',q:'Comment la musique folklorique du Nord se perpétue-t-elle aujourd\'hui ?',ctx:'Musique folklorique aujourd\'hui',opts:['Elle a disparu complètement','Elle est uniquement préservée dans des musées','Par des festivals, des événements et des musiciens qui jouent version traditionnelle ou moderne','Uniquement par des enregistrements anciens'],ans:2,exp:'Aujourd\'hui, la musique du Nord se perpétue via des <strong>festivals de musique</strong> et des événements. Certains musiciens jouent la tradition pure, d\'autres proposent des <strong>mélanges avec des styles modernes</strong>.'},
+  {set:'nord',q:'Pourquoi les shantys avaient-ils des mélodies simples ?',ctx:'Rôle des shantys',opts:['Par manque de talent des marins','Pour que les marins puissent les chanter pendant leur travail dur et coordonner leurs efforts','Pour plaire aux enfants','Parce que les marins ne connaissaient pas la musique complexe'],ans:1,exp:'Les shantys avaient des mélodies <strong>simples et répétitives</strong> car ils devaient être chantés <strong>pendant le travail dur</strong> à bord. Le rythme coordonnait les efforts collectifs (hisser les voiles, tirer les cordes…).'},
+];
+
+// QUIZ LOGIC
+let currentQuizSet = [];
+let currentQIdx = 0;
+let quizScore = 0;
+let currentSetName = 'all';
+
+function selectQuizSet(name, btn) {
+  currentSetName = name;
+  document.querySelectorAll('.quiz-sel-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function startQuiz() {
+  if(currentSetName === 'all') currentQuizSet = [...allQuestions];
+  else currentQuizSet = allQuestions.filter(q => q.set === currentSetName);
+  // Shuffle
+  for(let i=currentQuizSet.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[currentQuizSet[i],currentQuizSet[j]]=[currentQuizSet[j],currentQuizSet[i]];}
+  currentQIdx = 0; quizScore = 0;
+  document.getElementById('quiz-selector').style.display = 'none';
+  document.getElementById('quiz-area').style.display = 'block';
+  document.getElementById('quiz-score').style.display = 'none';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = currentQuizSet[currentQIdx];
+  const total = currentQuizSet.length;
+  document.getElementById('quiz-q-num').textContent = `Question ${currentQIdx+1} / ${total}`;
+  document.getElementById('quiz-pb').style.width = `${(currentQIdx/total)*100}%`;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('q-context').textContent = `📌 ${q.ctx}`;
+  const letters = ['A','B','C','D'];
+  const optHtml = q.opts.map((o,i) => `<button class="quiz-option" onclick="answerQ(${i})" id="opt-${i}">
+    <span class="option-letter">${letters[i]}</span> ${o}
+  </button>`).join('');
+  document.getElementById('q-options').innerHTML = optHtml;
+  document.getElementById('q-explanation').className = 'quiz-explanation';
+  document.getElementById('q-explanation').innerHTML = '';
+  document.getElementById('quiz-next-btn').style.display = 'none';
+}
+
+function answerQ(chosen) {
+  const q = currentQuizSet[currentQIdx];
+  document.querySelectorAll('.quiz-option').forEach(b => b.disabled = true);
+  const opts = document.querySelectorAll('.quiz-option');
+  if(chosen === q.ans) {
+    opts[chosen].classList.add('correct');
+    quizScore++;
+    updateProgress();
+  } else {
+    opts[chosen].classList.add('wrong');
+    opts[q.ans].classList.add('correct');
+  }
+  const exp = document.getElementById('q-explanation');
+  exp.innerHTML = (chosen === q.ans ? '✅ <strong>Correct !</strong> ' : '❌ <strong>Incorrect.</strong> ') + q.exp;
+  exp.classList.add('show');
+  document.getElementById('quiz-next-btn').style.display = 'block';
+}
+
+function nextQuestion() {
+  currentQIdx++;
+  if(currentQIdx >= currentQuizSet.length) {
+    showScore();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-area').style.display = 'none';
+  document.getElementById('quiz-score').style.display = 'block';
+  const total = currentQuizSet.length;
+  const pct = Math.round((quizScore/total)*100);
+  document.getElementById('score-num').textContent = quizScore;
+  document.getElementById('score-denom').textContent = `/ ${total}`;
+  const msgs = [
+    [0,'Tu débutes — relis les sections et réessaie !'],
+    [40,'Bon début ! Continue à mémoriser avec les flashcards.'],
+    [60,'Pas mal ! Tu maîtrises les bases.'],
+    [80,'Très bien ! Tu as une bonne maîtrise du sujet.'],
+    [90,'Excellent ! Tu es presque un expert !'],
+    [100,'Parfait ! Tu maîtrises totalement la musique folklorique allemande ! 🏆']
+  ];
+  let msg = msgs[0]; for(const m of msgs) if(pct>=m[0]) msg=m;
+  document.getElementById('score-message').textContent = `${pct}% — ${msg[1]}`;
+  document.getElementById('score-sub').textContent = `Score : ${quizScore} / ${total} questions correctes`;
+}
+
+function resetQuiz() {
+  document.getElementById('quiz-selector').style.display = 'flex';
+  document.getElementById('quiz-area').style.display = 'none';
+  document.getElementById('quiz-score').style.display = 'none';
+}
+
+function updateProgress() {
+  const sets = {general:8,alpine:12,nord:10};
+  const scores = {general:0,alpine:0,nord:0};
+  // track by set in current quiz
+  currentQuizSet.slice(0,currentQIdx+1).forEach((q,i) => {
+    if(i <= currentQIdx) scores[q.set] = (scores[q.set]||0);
+  });
+  // simple update based on overall score
+  const pct = Math.round((quizScore/currentQuizSet.length)*100);
+  ['general','alpine','nord'].forEach(s => {
+    document.getElementById('prog-'+s).style.width = pct+'%';
+    document.getElementById('prog-'+s+'-pct').textContent = pct+'%';
+  });
+}
+
+// ===================== MATCHING =====================
+const matchSets = [
+  {
+    leftTitle:'Termes',rightTitle:'Définitions',
+    pairs:[
+      {left:'Compositeur',right:'Artiste qui crée des œuvres musicales'},
+      {left:'Dialecte',right:'Langage parlé dans une région, par opposition à la langue écrite'},
+      {left:'Peuple',right:'Groupe partageant la même culture, langue et origine'},
+      {left:'Humour noir',right:'Humour traitant de sujets sérieux (mort, maladie) avec légèreté'},
+      {left:'Marin',right:'Personne employée sur un bateau'},
+      {left:'Traditionnel',right:'Conforme à sa propre culture ou tradition'},
+      {left:'Costume traditionnel',right:'Vêtements typiques d\'un groupe ou d\'une région'},
+      {left:'Musique de divertissement',right:'Musique destinée à l\'amusement et au profit commercial'},
+    ]
+  },
+  {
+    leftTitle:'Instrument / Terme',rightTitle:'Description',
+    pairs:[
+      {left:'Accordéon',right:'Instrument à touches et à soufflet — emblème des Alpes'},
+      {left:'Cithare',right:'Instrument à cordes pincées, posé à plat, originaire des Alpes'},
+      {left:'Cor des Alpes',right:'Grand instrument à vent au son grave, en forme de spirale'},
+      {left:'Hackbrett',right:'Instrument joué avec de petits marteaux (planche à hacher)'},
+      {left:'Yodel',right:'Technique vocale : alternance voix de poitrine / voix de tête'},
+      {left:'Transhumance',right:'Retour du bétail des alpages d\'été vers les vallées'},
+      {left:'Musique folklorique alpine',right:'Tradition musicale des régions autour des Alpes'},
+    ]
+  },
+  {
+    leftTitle:'Terme du Nord',rightTitle:'Définition',
+    pairs:[
+      {left:'Schifferklavier',right:'Sorte d\'accordéon diatonique du marin'},
+      {left:'Shanty',right:'Chanson de marins chantée pendant le travail à bord'},
+      {left:'Bas allemand',right:'Dialecte du Nord de l\'Allemagne (Plattdeutsch)'},
+      {left:'Ländler',right:'Danse traditionnelle à 3 temps, ancêtre de la valse'},
+      {left:'Valse',right:'Danse à 3/4 temps — 1-2-3, 1-2-3…'},
+      {left:'Harmonica',right:'Instrument à anches métalliques tenu à la main, on souffle dedans'},
+      {left:'Festival de musique',right:'Événement où l\'on joue de la musique folklorique'},
+    ]
+  }
+];
+
+let matchSelected = null;
+let matchCurrentSet = 0;
+let matchPairs = [];
+let matchAnswered = 0;
+
+function selectMatchSet(idx, btn) {
+  matchCurrentSet = idx;
+  document.querySelectorAll('.quiz-sel-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  buildMatch();
+}
+
+function buildMatch() {
+  const set = matchSets[matchCurrentSet];
+  document.getElementById('match-left-title').textContent = set.leftTitle;
+  document.getElementById('match-right-title').textContent = set.rightTitle;
+  matchPairs = [...set.pairs];
+  // Shuffle right side
+  const rights = [...matchPairs.map(p=>p.right)];
+  for(let i=rights.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[rights[i],rights[j]]=[rights[j],rights[i]];}
+  const lefts = matchPairs.map(p=>p.left);
+  matchSelected = null; matchAnswered = 0;
+  document.getElementById('match-result').style.display='none';
+  document.getElementById('match-score-bar').style.display='none';
+  document.getElementById('match-left').innerHTML = lefts.map((l,i)=>
+    `<div class="match-item" id="ml-${i}" onclick="selectMatchItem('left',${i},'${encodeURIComponent(l)}')">${l}</div>`
+  ).join('');
+  document.getElementById('match-right').innerHTML = rights.map((r,i)=>
+    `<div class="match-item" id="mr-${i}" onclick="selectMatchItem('right',${i},'${encodeURIComponent(r)}')">${r}</div>`
+  ).join('');
+  // store data
+  document.getElementById('match-left').dataset.items = JSON.stringify(lefts);
+  document.getElementById('match-right').dataset.items = JSON.stringify(rights);
+}
+
+function selectMatchItem(side, idx, val) {
+  const el = document.getElementById((side==='left'?'ml-':'mr-')+idx);
+  if(el.classList.contains('matched')) return;
+  if(!matchSelected) {
+    document.querySelectorAll('.match-item').forEach(e=>e.classList.remove('selected-match'));
+    el.classList.add('selected-match');
+    matchSelected = {side, idx, val};
+  } else {
+    if(matchSelected.side === side) {
+      document.querySelectorAll('.match-item').forEach(e=>e.classList.remove('selected-match'));
+      el.classList.add('selected-match');
+      matchSelected = {side, idx, val};
+      return;
+    }
+    // Try to match
+    const leftVal = matchSelected.side==='left' ? decodeURIComponent(matchSelected.val) : decodeURIComponent(val);
+    const rightVal = matchSelected.side==='right' ? decodeURIComponent(matchSelected.val) : decodeURIComponent(val);
+    const leftEl = matchSelected.side==='left' ? document.getElementById('ml-'+matchSelected.idx) : el;
+    const rightEl = matchSelected.side==='right' ? document.getElementById('mr-'+matchSelected.idx) : el;
+    // Find correct right for this left
+    const correctRight = matchPairs.find(p=>p.left===leftVal)?.right;
+    document.querySelectorAll('.match-item').forEach(e=>e.classList.remove('selected-match'));
+    if(correctRight === rightVal) {
+      leftEl.classList.add('matched','correct'); rightEl.classList.add('matched','correct');
+      matchAnswered++;
+      if(matchAnswered === matchPairs.length) {
+        const res = document.getElementById('match-result');
+        res.innerHTML = '<h4>🎉 Parfait ! Toutes les paires trouvées !</h4><p>Tu maîtrises ce vocabulaire !</p>';
+        res.style.display = 'block';
+      }
+    } else {
+      leftEl.classList.add('matched','wrong'); rightEl.classList.add('matched','wrong');
+      setTimeout(()=>{
+        leftEl.classList.remove('matched','wrong');
+        rightEl.classList.remove('matched','wrong');
+      }, 1200);
+    }
+    matchSelected = null;
+  }
+}
+
+function resetMatch() { buildMatch(); }
+function checkAllMatch() {
+  const total = matchPairs.length;
+  const bar = document.getElementById('match-score-bar');
+  bar.style.display='block';
+  bar.textContent = `Score : ${matchAnswered} / ${total} paires correctes (${Math.round(matchAnswered/total*100)}%)`;
+}
+buildMatch();
+
+// ===================== IMAGE QUIZ =====================
+const imgQuestions = [
+  {icon:'🪗',q:'Quel instrument est représenté ?',ctx:'Identifie l\'instrument et sa région d\'appartenance.',opts:['Cithare (Alpine)','Accordéon (Alpine)','Schifferklavier (Nord)','Harmonica (Nord)'],ans:1,exp:'L\'<strong>accordéon</strong> est l\'emblème de la <strong>musique folklorique alpine</strong>. Instrument à touches et à soufflet, il produit son son grâce à des anches métalliques qui vibrent quand l\'air les traverse. On le reconnaît à sa grande taille et à ses claviers.'},
+  {icon:'📯',q:'Quel instrument à vent est illustré ici ?',ctx:'Cet instrument est typique des régions de montagne.',opts:['Cor des Alpes (Alpine)','Tuba (orchestral)','Didgeridoo (Australie)','Trompette (orchestral)'],ans:0,exp:'Le <strong>cor des Alpes</strong> est un grand instrument à vent au son grave et portant. Il est <strong>typique de la musique folklorique alpine</strong>. On le reconnaît à sa forme longue, spiralée ou droite, fabriquée en bois.'},
+  {icon:'🎻',q:'Cet instrument à cordes appartient à quelle tradition ?',ctx:'Il est joué avec un archet et tenu sous le menton.',opts:['Musique folklorique alpine (cithare)','Musique folklorique du Nord et chanson viennoise (violon)','Musique du Nord (Schifferklavier)','Musique alpine (hackbrett)'],ans:1,exp:'Le <strong>violon</strong> est central à la <strong>musique folklorique du Nord de l\'Allemagne</strong> et à la <strong>chanson viennoise</strong>. Il se joue avec un archet, tenu sous le menton. À ne pas confondre avec la cithare, qui est posée à plat !'},
+  {icon:'🪗',q:'Cet accordéon de petite taille appartient à quelle tradition ?',ctx:'Il est typique des régions côtières et des marins.',opts:['Accordéon classique (Alpine)','Schifferklavier (Nord / Marins)','Cithare (Alpine)','Cor des Alpes (Alpine)'],ans:1,exp:'Le <strong>Schifferklavier</strong> ("piano du marin") est un <strong>accordéon diatonique</strong> typique des <strong>régions côtières du Nord de l\'Allemagne</strong>. Plus petit que l\'accordéon classique, il était utilisé par les marins à bord des navires.'},
+  {icon:'🎵',q:'Des marins chantent ensemble sur un bateau. Quelle tradition représentent-ils ?',ctx:'Ces chants coordonnaient le travail à bord.',opts:['Yodel alpin','Shanty (chant de marins du Nord)','Chanson viennoise','Ländler du Nord'],ans:1,exp:'Les <strong>shantys</strong> sont des chants de marins du <strong>Nord de l\'Allemagne</strong>. Ils étaient chantés pendant le dur labeur à bord des navires (hisser les voiles, pomper…) pour <strong>coordonner les efforts collectifs</strong>. Mélodies simples et paroles sur la vie en mer.'},
+  {icon:'🐄',q:'Des animaux décorés descendent de la montagne avec des cloches. Quel événement est illustré ?',ctx:'Cet événement annuel est accompagné de musique folklorique alpine.',opts:['Un festival de jazz','La transhumance (Almabtrieb)','Un shanty de marins','Un opéra bavarois'],ans:1,exp:'La <strong>transhumance</strong> (Almabtrieb) est le <strong>retour du bétail des alpages d\'été vers les vallées</strong> à l\'automne. C\'est un événement festif majeur des régions alpines, accompagné de <strong>musique folklorique alpine</strong>, de fleurs et de cloches sur les animaux.'},
+  {icon:'🎹',q:'Cet instrument est joué avec de petits marteaux frappant les cordes. Lequel est-ce ?',ctx:'Son nom allemand signifie "planche à hacher".',opts:['Cithare','Hackbrett (Alpine)','Violon','Contrebasse'],ans:1,exp:'Le <strong>hackbrett</strong> est un instrument à <strong>cordes frappées</strong> avec de petits marteaux. Son nom vient de l\'allemand "hacken" (hacher) + "Brett" (planche). Il est typique de la <strong>musique folklorique alpine</strong>.'},
+  {icon:'🎸',q:'Instrument posé à plat, cordes pincées, originaire des Alpes — lequel est-ce ?',ctx:'Il produit un son délicat et cristallin.',opts:['Guitare classique','Violon','Cithare (Alpine)','Harmonica'],ans:2,exp:'La <strong>cithare</strong> est un instrument à <strong>cordes pincées posé à plat</strong> sur une table. Elle est originaire des Alpes et produit un son cristallin et délicat. À ne pas confondre avec la guitare, qui est tenue verticalement !'},
+  {icon:'🎙️',q:'Un chanteur alterne rapidement entre voix grave et voix aiguë. Quelle technique utilise-t-il ?',ctx:'Technique vocale typique de la musique alpine.',opts:['Chant de marin (shanty)','Opéra bavarois','Yodel (technique vocale alpine)','Chant grégorien'],ans:2,exp:'Le <strong>yodel</strong> est une <strong>technique vocale</strong> (pas un instrument) dans laquelle le chanteur alterne rapidement entre la <strong>voix de poitrine</strong> (grave) et la <strong>voix de tête</strong> (aiguë/falsetto). Typique de la musique folklorique alpine !'},
+  {icon:'🎵',q:'Un instrument à anches métalliques tenu dans la main — on souffle dedans. Lequel ?',ctx:'Très compact, idéal pour les voyages en mer.',opts:['Cor des Alpes','Accordéon','Harmonica (Nord)','Clarinette'],ans:2,exp:'L\'<strong>harmonica</strong> est un instrument à <strong>anches métalliques tenu à la main</strong>. Le musicien souffle dedans pour produire le son. Sa taille compacte le rendait idéal pour les <strong>marins du Nord de l\'Allemagne</strong>.'},
+  {icon:'💃',q:'Une danse à 3 temps où les couples tournent. Quelle danse est illustrée ?',ctx:'Populaire en Allemagne du Nord — 1-2-3, 1-2-3…',opts:['Le yodel','La valse (danse à 3/4)','La transhumance','Le shanty'],ans:1,exp:'La <strong>valse</strong> est une danse à <strong>3 temps (3/4)</strong>. Les couples tournent ensemble au rythme de 1-2-3, 1-2-3… Elle est populaire dans le <strong>Nord de l\'Allemagne</strong> et est différente du Ländler (son ancêtre).'},
+  {icon:'🏔️',q:'Des musiciens en costume traditionnel paysan jouent dans les Alpes. Quelle tradition représentent-ils ?',ctx:'Costumes typiques, instruments alpins, fête populaire.',opts:['Musique folklorique du Nord (shantys)','Musique folklorique alpine (avec Tracht)','Chanson pop moderne','Opéra viennois'],ans:1,exp:'La <strong>musique folklorique alpine</strong> est généralement interprétée en <strong>costume traditionnel paysan (Tracht)</strong> lors de fêtes populaires, marchés de Noël et transhumances. Le costume est une partie intégrante de la tradition alpine.'},
+];
+
+let imgQIdx = 0;
+let imgScore = 0;
+
+function startImgQuiz() {
+  imgQIdx = 0; imgScore = 0;
+  document.getElementById('img-quiz-area').style.display='block';
+  document.getElementById('img-score').style.display='none';
+  renderImgQ();
+}
+
+function renderImgQ() {
+  const q = imgQuestions[imgQIdx];
+  const total = imgQuestions.length;
+  document.getElementById('img-q-num').textContent = `Image ${imgQIdx+1} / ${total}`;
+  document.getElementById('img-pb').style.width = `${(imgQIdx/total)*100}%`;
+  document.getElementById('img-icon').textContent = q.icon;
+  document.getElementById('img-q-text').textContent = q.q;
+  document.getElementById('img-q-context').textContent = `📌 ${q.ctx}`;
+  const letters = ['A','B','C','D'];
+  document.getElementById('img-options').innerHTML = q.opts.map((o,i)=>
+    `<button class="quiz-option" onclick="answerImgQ(${i})" id="iopt-${i}">
+      <span class="option-letter">${letters[i]}</span>${o}
+    </button>`
+  ).join('');
+  document.getElementById('img-explanation').className = 'quiz-explanation';
+  document.getElementById('img-explanation').innerHTML = '';
+  document.getElementById('img-next-btn').style.display='none';
+}
+
+function answerImgQ(chosen) {
+  const q = imgQuestions[imgQIdx];
+  document.querySelectorAll('#img-options .quiz-option').forEach(b=>b.disabled=true);
+  const opts = document.querySelectorAll('#img-options .quiz-option');
+  if(chosen===q.ans) { opts[chosen].classList.add('correct'); imgScore++; }
+  else { opts[chosen].classList.add('wrong'); opts[q.ans].classList.add('correct'); }
+  const exp = document.getElementById('img-explanation');
+  exp.innerHTML = (chosen===q.ans?'✅ <strong>Correct !</strong> ':'❌ <strong>Incorrect.</strong> ') + q.exp;
+  exp.classList.add('show');
+  document.getElementById('img-next-btn').style.display='block';
+}
+
+function nextImgQ() {
+  imgQIdx++;
+  if(imgQIdx >= imgQuestions.length) {
+    document.getElementById('img-quiz-area').style.display='none';
+    document.getElementById('img-score').style.display='block';
+    const pct = Math.round(imgScore/imgQuestions.length*100);
+    document.getElementById('img-score-num').textContent=imgScore;
+    document.getElementById('img-score-denom').textContent=`/ ${imgQuestions.length}`;
+    const msgs = [[0,'Continue à étudier les fiches instruments !'],[50,'Bon début, révise la galerie !'],[75,'Très bien ! Tu identifies la plupart des instruments.'],[100,'Parfait ! Expert en instruments folkloriques ! 🏆']];
+    let m=msgs[0]; for(const msg of msgs) if(pct>=msg[0]) m=msg;
+    document.getElementById('img-score-msg').textContent = `${pct}% — ${m[1]}`;
+  } else renderImgQ();
+}
+startImgQuiz();
+
+// ===================== NOTIF =====================
+function showNotif(msg, type) {
+  const n = document.createElement('div');
+  n.className = `notif ${type}`; n.textContent = msg;
+  document.body.appendChild(n);
+  setTimeout(()=>{n.style.opacity='0';setTimeout(()=>n.remove(),300);},2000);
+}
+</script>
 </body>
 </html>
